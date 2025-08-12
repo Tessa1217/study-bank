@@ -1,8 +1,13 @@
-import { supabase } from "@/lib/supabase";
-import type { Database, Tables } from "@/types/supabase.types";
+import {
+  pickDefined,
+  sbExecOne,
+  supabase,
+} from "@/services/shared/supabase-helper";
+import type { Row, Update } from "@/services/shared/types";
 
-type ProfilesRow = Tables<"user_profiles">;
-type ProfilesUpdate = Database["public"]["Tables"]["user_profiles"]["Update"];
+type ProfilesRow = Row<"user_profiles">;
+type ProfilesUpdate = Update<"user_profiles">;
+
 export type UserProfile = Pick<
   ProfilesRow,
   | "id"
@@ -14,28 +19,25 @@ export type UserProfile = Pick<
   | "created_at"
 >;
 
-export async function getUserProfile(userId: string): Promise<UserProfile> {
-  const profileBuilder = supabase.from("user_profiles").select("*").single();
+const PROFILE_COLUMNS =
+  "id, avatar_url, user_name, interests, languages, created_at, updated_at";
 
-  const { data, error } = await profileBuilder;
-
-  if (error) throw error;
-  return data as UserProfile;
+/** RLS 전제: 현재 로그인 사용자 */
+export async function getUserProfile(): Promise<UserProfile> {
+  return sbExecOne<UserProfile>(
+    supabase.from("user_profiles").select(PROFILE_COLUMNS).single()
+  );
 }
 
 export async function updateUserProfile(
   payload: ProfilesUpdate
 ): Promise<UserProfile> {
-  const updatePayload = { ...payload, updated_at: new Date().toISOString() };
-  const updateProfileBuilder = supabase
-    .from("user_profiles")
-    .update(updatePayload)
-    .select("id, avatar_url, user_name, interests, languages")
-    .single();
-
-  const { data, error } = await updateProfileBuilder;
-
-  if (error) throw error;
-
-  return data as UserProfile;
+  const updatePayload = pickDefined(payload);
+  return sbExecOne<UserProfile>(
+    supabase
+      .from("user_profiles")
+      .update(updatePayload)
+      .select(PROFILE_COLUMNS)
+      .single()
+  );
 }
