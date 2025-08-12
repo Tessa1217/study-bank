@@ -13,7 +13,7 @@ export function toAppError(e: unknown) {
   // return new AppError("Unknown error");
 }
 
-// 빌더 제네릭 2번째 파라미터는 버전에 따라 달라서 any로 둡니다.
+/** 빌더 타입 */
 type Builder<T> = PostgrestBuilder<T, any>;
 
 /** select() 다건 */
@@ -58,7 +58,7 @@ export async function sbExecMaybe<T>(builder: Builder<any>): Promise<T | null> {
   }
 }
 
-/** undefined 제거(부분 업데이트용). null은 유지 */
+/** payload에 대한 undefined 제거(부분 업데이트용): null은 유지 */
 export const pickDefined = <T extends Record<string, any>>(obj: T) =>
   Object.fromEntries(
     Object.entries(obj).filter(([, v]) => v !== undefined)
