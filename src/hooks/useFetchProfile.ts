@@ -1,4 +1,4 @@
-import { getUserProfile } from "@/services/profile.service";
+import { getUserProfile } from "@/api/profile.api";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect } from "react";
 export function useFetchProfile() {
@@ -7,7 +7,7 @@ export function useFetchProfile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (user) {
-        const data = await getUserProfile(user.id);
+        const { data } = await getUserProfile();
         setProfile(data);
       }
     };
