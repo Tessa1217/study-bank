@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 import type { StudyFolderRow } from "@/api/folder.api";
 import { useFolderService } from "@/hooks/services/useFolderService";
 import { useStatusState } from "@/hooks/useStateWithStatus";
+import { BookA } from "lucide-react";
 
 export default function FolderPage() {
   const { folderId } = useParams();
@@ -58,8 +59,16 @@ export default function FolderPage() {
       <div className="text-gray-700 whitespace-pre-wrap">
         {description || "설명이 없습니다."}
       </div>
-      <div>
-        <button className="btn-primary">학습 자료 추가하기</button>
+      <div className="flex p-10 flex-col gap-3 justify-center items-center bg-white m-1">
+        <div className="flex">
+          <BookA size={30} />
+          <BookA size={30} />
+          <BookA size={30} />
+        </div>
+        <p>학습 자료를 추가해서 폴더를 완성해보세요.</p>
+        <NavLink className="btn-primary" to={"/set/new"}>
+          학습 자료 추가하기
+        </NavLink>
       </div>
     </div>
   );
