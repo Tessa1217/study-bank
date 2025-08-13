@@ -1,8 +1,6 @@
 import type { Tables } from "@/types/supabase.types";
 import type { User } from "@supabase/supabase-js";
-import { create, type StateCreator } from "zustand";
-import { subscribeWithSelector } from "zustand/middleware";
-
+import { createSubscribedZustandStore } from "@/store/store";
 type Profile = Tables<"user_profiles">;
 
 type AuthState = {
@@ -25,7 +23,7 @@ const initialState = {
   profile: null,
 };
 
-const authStore: StateCreator<AuthState & AuthAction> = (set, get) => ({
+export const useAuthStore = createSubscribedZustandStore<AuthState & AuthAction>((set, get) => ({
   ...initialState,
   login: () => get().updateIsLoggedIn(true),
   logout: () => {
@@ -35,8 +33,4 @@ const authStore: StateCreator<AuthState & AuthAction> = (set, get) => ({
   updateIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
   setUser: (user) => set({ user }),
   setProfile: (profile) => set({ profile }),
-});
-
-export const useAuthStore = create<AuthState & AuthAction>()(
-  subscribeWithSelector(authStore)
-);
+}))

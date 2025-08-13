@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { createZustandStore } from "@/store/store";
 
 type AlertState = {
   open: boolean;
@@ -9,7 +9,7 @@ type AlertState = {
   closeAlert: () => void;
 };
 
-export const useAlertStore = create<AlertState>((set) => ({
+export const useAlertStore = createZustandStore<AlertState>((set) => ({
   open: false,
   message: "",
   actionLabel: undefined,
