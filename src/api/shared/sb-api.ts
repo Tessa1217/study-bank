@@ -1,40 +1,33 @@
 import { supabase } from "@/lib/supabase";
 import type { PostgrestBuilder } from "@supabase/postgrest-js";
-
-/** 런타임 에러 → AppError로 일원화 */
-export function toAppError(e: unknown) {
-  if (e && typeof e === "object") {
-    const anyErr = e as any;
-    const msg = anyErr?.message ?? "Unknown error";
-    const code = anyErr?.code;
-    const status = anyErr?.status ?? anyErr?.statusCode;
-    // return new AppError(msg);
-  }
-  // return new AppError("Unknown error");
-}
+import { mapSupabaseError } from "@/api/error/error-handler";
+import type { AppError } from "@/api/error/error.types";
 
 /** 빌더 타입 */
 type Builder<T> = PostgrestBuilder<T, any>;
 
+/** Supabase 리턴 타입 */
+export type SbResult<T> = Promise<{ data: T | null; error: AppError | null }>;
+
 /** select() 다건 */
-export async function sbExecMany<T>(builder: Builder<T[]>): Promise<T[]> {
+export async function sbExecMany<T>(builder: Builder<T[]>): SbResult<T[]> {
   try {
     const { data, error } = (await builder) as { data: T[]; error: unknown };
     if (error) throw error;
-    return data;
+    return { data, error: null };
   } catch (e) {
-    throw toAppError(e);
+    return { data: null, error: mapSupabaseError(e) };
   }
 }
 
 /** single() 단건 */
-export async function sbExecOne<T>(builder: Builder<T>): Promise<T> {
+export async function sbExecOne<T>(builder: Builder<T>): SbResult<T> {
   try {
     const { data, error } = (await builder) as { data: T; error: unknown };
     if (error) throw error;
-    return data;
+    return { data, error: null };
   } catch (e) {
-    throw toAppError(e);
+    return { data: null, error: mapSupabaseError(e) };
   }
 }
 
@@ -42,19 +35,26 @@ export async function sbExecOne<T>(builder: Builder<T>): Promise<T> {
  *  - 어떤 환경에선 타입이 T | null 대신 T[] | null로 추론되기도 해서 둘 다 수용
  *  - 런타임에서도 배열이면 첫 요소를 반환 (없으면 null)
  */
-export function sbExecMaybe<T>(builder: Builder<T | null>): Promise<T | null>;
-export function sbExecMaybe<T>(builder: Builder<T[] | null>): Promise<T | null>;
-export async function sbExecMaybe<T>(builder: Builder<any>): Promise<T | null> {
+export function sbExecMaybe<T>(builder: Builder<T | null>): SbResult<T | null>;
+export function sbExecMaybe<T>(
+  builder: Builder<T[] | null>
+): SbResult<T | null>;
+export async function sbExecMaybe<T>(
+  builder: Builder<any>
+): SbResult<T | null> {
   try {
     const { data, error } = (await builder) as {
       data: T | T[] | null;
       error: unknown;
     };
     if (error) throw error;
-    if (Array.isArray(data)) return (data[0] ?? null) as T | null;
-    return (data ?? null) as T | null;
+    if (Array.isArray(data)) {
+      return { data: (data[0] ?? null) as T | null, error: null };
+    }
+
+    return { data: (data ?? null) as T | null, error: null };
   } catch (e) {
-    throw toAppError(e);
+    return { data: null, error: mapSupabaseError(e) };
   }
 }
 
