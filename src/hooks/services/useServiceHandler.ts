@@ -11,7 +11,7 @@ export function useServiceHandler() {
     return async (...args: TArgs): Promise<TData | null> => {
       const data = await handle<TData>(fn(...args));
       if (data) {
-        if (opts?.successMessage) {
+        if (opts?.successMessage) {          
         }
         opts?.onSuccess?.(data);
       }
