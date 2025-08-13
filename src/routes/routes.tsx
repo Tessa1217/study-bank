@@ -13,6 +13,7 @@ const Profile = lazy(() => import("@/pages/profile/user-profile"));
 const Main = lazy(() => import("@/pages/studyroom/main"));
 const Folder = lazy(() => import("@/pages/folder/folder"));
 const FolderNew = lazy(() => import("@/pages/folder/folder-new"));
+const SetNew = lazy(() => import("@/pages/set/set-new"));
 const router = createBrowserRouter([
   {
     element: <GuardedRoute />,
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
           {
             path: "folder/:folderId",
             element: <Folder />,
+          },
+          {
+            path: "set/new",
+            element: <SetNew />,
           },
         ],
       },
