@@ -1,0 +1,7 @@
+@theme {
+  --color-primary: var(--color-indigo-600);
+  --default-ring-width: 3px;
+  --default-ring-color: var(--color-blue-500);
+  --shadow-soft: 0 10px 20px -5px rgb(0 0 0 / 0.08),
+    0 6px 12px -6px rgb(0 0 0 / 0.05);
+}
