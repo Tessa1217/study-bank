@@ -9,7 +9,10 @@ const DefaultLayout = lazy(() => import("@/components/layout/default-layout"));
 const LoginLayout = lazy(() => import("@/components/layout/login-layout"));
 const Login = lazy(() => import("@/pages/auth/login"));
 const SignUp = lazy(() => import("@/pages/auth/sign-up"));
+const Profile = lazy(() => import("@/pages/profile/user-profile"));
 const Main = lazy(() => import("@/pages/studyroom/main"));
+const Folder = lazy(() => import("@/pages/folder/folder"));
+const FolderNew = lazy(() => import("@/pages/folder/folder-new"));
 const router = createBrowserRouter([
   {
     element: <GuardedRoute />,
@@ -21,6 +24,18 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Main />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "folder/new",
+            element: <FolderNew />,
+          },
+          {
+            path: "folder/:folderId",
+            element: <Folder />,
           },
         ],
       },
