@@ -1,4 +1,5 @@
-import { Search, User, Menu, X } from "lucide-react";
+import UserSetting from "@/components/layout/user-setting";
+import { Search, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -100,10 +101,7 @@ export default function Topbar() {
           >
             <Search className="size-5" />
           </button>
-          <button className="btn btn-outline size-10 md:size-auto md:px-3 md:py-2">
-            <span className="sr-only">내 계정</span>
-            <User className="size-5" />
-          </button>
+          <UserSetting />
         </div>
       </div>
       {showSearch && (
