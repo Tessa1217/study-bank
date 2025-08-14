@@ -5,7 +5,7 @@ const FlashCard = ({ card }: { card: StudyCardDraft }) => {
   const [flipped, setFlipped] = useState<boolean>(false);
   return (
     <div
-      className="relative mx-auto aspect-[3/2] w-full max-w-xl [perspective:1000px] cursor-pointer"
+      className="relative mx-auto aspect-[3/2] w-full [perspective:1000px] cursor-pointer"
       onClick={() => setFlipped(!flipped)}
     >
       <div
