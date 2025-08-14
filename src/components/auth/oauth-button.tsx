@@ -1,5 +1,6 @@
 import Button from "@/components/button/button";
-import { signInOAuth, type Provider } from "@/hooks/useSupabaseAuth";
+import { useSignInWithOAuthMutation } from "@/hooks/queries/useAuthQuery";
+import type { Provider } from "@/api/auth.api";
 import type { ReactNode } from "react";
 
 const OAuthButton = ({
@@ -9,13 +10,14 @@ const OAuthButton = ({
   children: ReactNode;
   provider: Provider;
 }) => {
+  const { mutateAsync: oAuthLogin } = useSignInWithOAuthMutation(provider);
+
+  const onClick = async () => {
+    await oAuthLogin();
+  };
+
   return (
-    <Button
-      width="full"
-      size="lg"
-      color="gray"
-      onClick={() => signInOAuth(provider)}
-    >
+    <Button width="full" size="lg" color="gray" onClick={onClick}>
       {children}
     </Button>
   );
