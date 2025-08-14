@@ -10,7 +10,7 @@ const DefaultLayout = () => {
           <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
             S
           </div>
-          <span className="font-semibold">Question Bank</span>
+          <span className="font-semibold">QuestionBank</span>
         </div>
         <Sidebar />
         <div className="mt-auto text-xs text-slate-500 px-2">
