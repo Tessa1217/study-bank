@@ -71,8 +71,8 @@ const Library = () => {
         >
           {loading ? (
             <Grid>
-              {Array.from({ length: 3 }).map(() => (
-                <FolderSkeleton />
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <FolderSkeleton key={`folder_skelecton_${idx}`} />
               ))}
             </Grid>
           ) : hasFolders ? (
@@ -111,8 +111,8 @@ const Library = () => {
         >
           {loading ? (
             <Grid>
-              {Array.from({ length: 4 }).map(() => (
-                <SetSkeleton />
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <SetSkeleton key={`set_skeleton_${idx}`} />
               ))}
             </Grid>
           ) : hasSets ? (
@@ -227,7 +227,7 @@ function FolderCard({ id, name, description }: StudyFolderSummary) {
 function SetCard({ id, title, description }: StudySetSummary) {
   return (
     <Link
-      to={`/set/${id}/learn`}
+      to={`/set/${id}`}
       className="card group flex flex-col gap-3 p-4 hover:shadow-md"
     >
       <h4 className="font-semibold truncate">{title}</h4>
@@ -236,7 +236,7 @@ function SetCard({ id, title, description }: StudySetSummary) {
       </p>
       <div className="mt-auto flex justify-end gap-2 align-middle">
         <span className="text-xs text-slate-500 group-hover:text-slate-700">
-          학습하러 가기
+          세트 보러 가기
         </span>
         <ArrowRight size={15} />
       </div>
