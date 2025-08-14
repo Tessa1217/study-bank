@@ -9,7 +9,7 @@ type AlertState = {
   closeAlert: () => void;
 };
 
-export const useAlertStore = createZustandStore<AlertState>((set) => ({
+export const useAlertStore = createZustandStore<AlertState>("alert-storage", (set) => ({
   open: false,
   message: "",
   actionLabel: undefined,

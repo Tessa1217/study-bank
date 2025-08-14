@@ -23,7 +23,7 @@ const initialState = {
   profile: null,
 };
 
-export const useAuthStore = createSubscribedZustandStore<AuthState & AuthAction>((set, get) => ({
+export const useAuthStore = createSubscribedZustandStore<AuthState & AuthAction>("user-storage", (set, get) => ({
   ...initialState,
   login: () => get().updateIsLoggedIn(true),
   logout: () => {
