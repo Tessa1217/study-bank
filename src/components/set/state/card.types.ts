@@ -1,14 +1,5 @@
+import type { StudyCardDraft } from "@/api/mapper/types";
 export type Side = "word" | "definition"
-
-export type StudyCardDraft = {
-  id : string;
-  set_id: string;
-  word: string;
-  word_lang: string;
-  definition: string;
-  definition_lang: string;
-  sort_order: number;
-}
 
 export type CardState = {
   cards: StudyCardDraft[];

@@ -1,17 +1,11 @@
-import { useEffect } from "react";
-import { type StudyCardDraft } from "@/components/set/state/card.types";
 import CardList from "@/components/set/card-list";
 import { useCardEditor } from "@/components/set/card-editor-context";
 import CardItemEditor from "@/components/set/card-item-editor";
 
-const CardEditor = ({ cardList }: { cardList: StudyCardDraft[] }) => {
+const CardEditor = () => {
   const {
-    actions: { init, addCard },
+    actions: { addCard },
   } = useCardEditor();
-
-  useEffect(() => {
-    init(cardList);
-  }, [cardList]);
 
   return (
     <div className="grid relative grid-cols-1 lg:grid-cols-[360px_1fr] gap-4">

@@ -3,6 +3,7 @@ import {
   useContext,
   useMemo,
   useReducer,
+  useState,
   type Dispatch,
 } from "react";
 import {
@@ -10,6 +11,20 @@ import {
   initialCardState,
 } from "@/components/set/state/card.reducer";
 import type { CardState, CardAction } from "@/components/set/state/card.types";
+import {
+  validateSet,
+  type SetErrors,
+  hasErrors,
+} from "@/components/set/state/card.validation";
+
+type StudySet = {
+  title: string;
+  description?: string;
+};
+
+type FirstError =
+  | { scope: "set"; field?: string }
+  | { scope: "card"; cardId: string; field?: string };
 
 type EditorCtx = {
   state: CardState;
@@ -22,7 +37,18 @@ type EditorCtx = {
     removeCard: (id: string) => void;
     reorder: (cards: CardState["cards"]) => void;
     setActive: (id?: string) => void;
+    setMeta: (meta: StudySet) => void;
+    validateNow: () => {
+      ok: boolean;
+      firstError?: FirstError;
+      errors: SetErrors;
+    };
+    clearErrors: () => void;
   };
+  meta: { title: string; description?: string };
+  errors: SetErrors;
+  isValid: boolean;
+  submitAttempted: boolean;
 };
 
 const CardEditorContext = createContext<EditorCtx | null>(null);
@@ -33,6 +59,20 @@ interface CardEditorProiderProps {
 
 export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
   const [state, dispatch] = useReducer(cardReducer, initialCardState);
+  const [meta, setMeta] = useState<StudySet>({ title: "", description: "" });
+  const [errors, setErrors] = useState<SetErrors>({ cards: {} });
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  /** 첫번째 에러 탐색 */
+  const findFirstError = (e: SetErrors): FirstError | undefined => {
+    const setFields = Object.keys(e.set ?? {});
+    if (setFields.length) return { scope: "set", field: setFields[0] };
+    for (const [cardId, fields] of Object.entries(e.cards)) {
+      const fs = Object.keys(fields);
+      if (fs.length) return { scope: "card", cardId, field: fs[0] };
+    }
+    return undefined;
+  };
 
   const actions = useMemo(
     () => ({
@@ -48,13 +88,37 @@ export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
       reorder: (cards: CardState["cards"]) =>
         dispatch({ type: "REORDER", payload: cards }),
       setActive: (id?: string) => dispatch({ type: "SET_ACTIVE", id }),
+
+      setMeta: (m: { title: string; description?: string }) => setMeta(m),
+
+      validateNow: () => {
+        const next = validateSet({ ...meta, cards: state.cards });
+        setErrors(next);
+        setSubmitAttempted(true);
+        const firstError = findFirstError(next);
+        return { ok: !hasErrors(next), firstError, errors: next };
+      },
+      clearErrors: () => {
+        setErrors({ cards: {} });
+        setSubmitAttempted(false);
+      },
     }),
-    []
+    [meta, state.cards]
   );
 
-  const value = useMemo(
-    () => ({ state, dispatch, actions }),
-    [state, dispatch, actions]
+  const isValid = useMemo(() => !hasErrors(errors), [errors]);
+
+  const value: EditorCtx = useMemo(
+    () => ({
+      state,
+      dispatch,
+      actions,
+      meta,
+      errors,
+      isValid,
+      submitAttempted,
+    }),
+    [state, dispatch, actions, meta, errors, isValid, submitAttempted]
   );
 
   return (

@@ -1,9 +1,20 @@
 import { useCardEditor } from "@/components/set/card-editor-context";
 import { File } from "lucide-react";
+
+const CardItemError = ({ message }: { message: string }) => {
+  return (
+    <p key={message} className="text-red-600 text-xs">
+      {message}
+    </p>
+  );
+};
+
 const CardItemEditor = () => {
   const {
     state: { cards, activeId },
     actions: { updateWord, updateDefinition },
+    errors,
+    submitAttempted,
   } = useCardEditor();
 
   const selected = cards.find(({ id }) => id === activeId);
@@ -16,6 +27,8 @@ const CardItemEditor = () => {
     );
   }
 
+  const cardErrors = errors.cards[selected.id];
+
   return (
     <section className="card space-y-4">
       <div className="grid gap-2">
@@ -26,6 +39,8 @@ const CardItemEditor = () => {
           value={selected.word}
           onChange={(e) => updateWord(selected.id, e.target.value)}
         />
+        {submitAttempted &&
+          cardErrors?.word?.map((m) => <CardItemError message={m} />)}
       </div>
       <div className="grid gap-2">
         <label htmlFor="definition" className="text-sm font-medium">
@@ -38,6 +53,8 @@ const CardItemEditor = () => {
           value={selected.definition}
           onChange={(e) => updateDefinition(selected.id, e.target.value)}
         />
+        {submitAttempted &&
+          cardErrors?.definition?.map((m) => <CardItemError message={m} />)}
       </div>
       <div className="flex flex-wrap justify-between items-center gap-2">
         <button className="btn-outline flex gap-2">

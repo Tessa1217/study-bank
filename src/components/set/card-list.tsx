@@ -1,10 +1,11 @@
 import { SortableCardList } from "@/components/set/sortable-card-list";
 import { useCardEditor } from "@/components/set/card-editor-context";
 import CardListItem from "@/components/set/card-list-item";
+import { X } from "lucide-react";
 const CardList = () => {
   const {
     state: { activeId, cards },
-    actions: { reorder, setActive },
+    actions: { reorder, setActive, removeCard },
   } = useCardEditor();
 
   return (
@@ -23,6 +24,16 @@ const CardList = () => {
                 selected={activeId === item.id}
               />
               <SortableCardList.DragHandle />
+              <button
+                type="button"
+                className="ml-auto cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeCard(item.id);
+                }}
+              >
+                <X size={13} />
+              </button>
             </div>
           </SortableCardList.Item>
         )}
