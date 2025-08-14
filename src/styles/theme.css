@@ -1,8 +1,48 @@
 @theme {
-  --color-primary: var(--color-indigo-600);
+  --color-brand-100: oklch(48.43% 0.109 296.1);
+  --color-brand-200: oklch(46.76% 0.119 294.74);
+  --color-brand-300: oklch(45.1% 0.128 293.38);
+  --color-brand-400: oklch(43.43% 0.138 292.02);
+  --color-brand-500: oklch(41.76% 0.147 290.65);
+  --color-brand-600: oklch(40.09% 0.157 289.29);
+  --color-brand-700: oklch(38.42% 0.166 287.93);
+  --color-brand-800: oklch(36.75% 0.176 286.57);
+  --color-brand-900: oklch(35.08% 0.185 285.21);
+  --color-primary: var(--color-brand-600);
   --color-secondary: var(--color-gray-200);
   --default-ring-width: 3px;
   --default-ring-color: var(--color-blue-500);
   --shadow-soft: 0 10px 20px -5px rgb(0 0 0 / 0.08),
     0 6px 12px -6px rgb(0 0 0 / 0.05);
+  --font-main: "GmarketSans", sans-serif;
+}
+
+@font-face {
+  font-family: "GmarketSans";
+  src: url("@/assets/font/GmarketSans/GmarketSans-Light.woff2") format("woff2"),
+    url("@/assets/font/GmarketSans/GmarketSans-Light.woff") format("woff"),
+    url("@/assets/font/GmarketSans/GmarketSansLight.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GmarketSans";
+  src: url("@/assets/font/GmarketSans/GmarketSans-Medium.woff2") format("woff2"),
+    url("@/assets/font/GmarketSans/GmarketSans-Medium.woff") format("woff"),
+    url("@/assets/font/GmarketSans/GmarketSansMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GmarketSans";
+  src: url("@/assets/font/GmarketSans/GmarketSans-Bold.woff2") format("woff2"),
+    url("@/assets/font/GmarketSans/GmarketSans-Bold.woff") format("woff"),
+    url("@/assets/font/GmarketSans/GmarketSansBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
