@@ -14,3 +14,8 @@ export const setWithCardsKeys = {
   all: ['setWithCards'] as const,
   detail: (id: string) => [...setWithCardsKeys.all, 'detail', id] as const,
 };
+
+export const cardKeys = {
+  all: ['cards'] as const,
+  list: (setId:string) => [...cardKeys.all, 'list', setId] as const,  
+}
