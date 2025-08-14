@@ -1,42 +1,18 @@
-import { useEffect } from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
-import type { StudyFolderRow } from "@/api/folder.api";
-import { useFolderService } from "@/hooks/services/useFolderService";
-import { useStatusState } from "@/hooks/useStateWithStatus";
+import { useFolderQuery } from "@/hooks/queries/useFolderQuery";
 import { BookA } from "lucide-react";
 
 export default function FolderPage() {
   const { folderId } = useParams();
   const navigate = useNavigate();
-  const { getStudyFolder } = useFolderService();
-  const { state, setLoading, setEmpty, setSuccess } =
-    useStatusState<StudyFolderRow>();
-
-  useEffect(() => {
-    if (!folderId) {
-      setEmpty();
-      return;
-    }
-
-    (async () => {
-      setLoading();
-      const data = await getStudyFolder(folderId);
-      data ? setSuccess(data) : setEmpty();
-    })();
-  }, [folderId]);
+  const { data: folder, isLoading } = useFolderQuery(folderId);
 
   // 렌더링 분기
-  if (state.status === "loading" || state.status === "idle") {
-    return (
-      <div className="space-y-6">
-        <div className="h-7 w-40 rounded bg-gray-200 animate-pulse" />
-        <div className="h-5 w-64 rounded bg-gray-200 animate-pulse" />
-        <div className="h-10 w-48 rounded bg-gray-200 animate-pulse" />
-      </div>
-    );
+  if (isLoading) {
+    return <FolderSkeleton />;
   }
 
-  if (state.status === "empty" || state.status === "error") {
+  if (!folder) {
     return (
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">폴더를 찾을 수 없어요</h1>
@@ -51,7 +27,7 @@ export default function FolderPage() {
   }
 
   // 성공
-  const { name, description } = state.data;
+  const { name, description } = folder;
 
   return (
     <div className="space-y-6">
@@ -70,6 +46,16 @@ export default function FolderPage() {
           학습 자료 추가하기
         </NavLink>
       </div>
+    </div>
+  );
+}
+
+function FolderSkeleton() {
+  return (
+    <div className="space-y-6">
+      <div className="h-7 w-40 rounded bg-gray-200 animate-pulse" />
+      <div className="h-5 w-64 rounded bg-gray-200 animate-pulse" />
+      <div className="h-10 w-48 rounded bg-gray-200 animate-pulse" />
     </div>
   );
 }
