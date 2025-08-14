@@ -53,6 +53,10 @@ const router = createBrowserRouter([
                 element: <SetNew />,
               },
               {
+                path: ":setId",
+                element: <Main />,
+              },
+              {
                 path: ":setId/learn",
                 element: <Learn />,
               },
