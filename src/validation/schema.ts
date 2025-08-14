@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+export const CredentialSchema = z.object({
+  email: z.email().trim().min(1, "이메일은 필수입니다."),
+  password: z.string().trim().min(6, "비밀번호는 최소 6자리 이상 입력해주세요.").max(20, "비밀번호는 최대 20자리까지 입력 가능합니다.")
+})
+
 export const FolderSchema = z.object({
   id: z.string().optional(),
   name: z.string().trim().min(1, "폴더명은 필수입니다."),
