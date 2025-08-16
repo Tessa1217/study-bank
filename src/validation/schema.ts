@@ -5,6 +5,11 @@ export const CredentialSchema = z.object({
   password: z.string().trim().min(6, "비밀번호는 최소 6자리 이상 입력해주세요.").max(20, "비밀번호는 최대 20자리까지 입력 가능합니다.")
 })
 
+export const ProfileSchema = z.object({
+  avatar_url : z.string().optional(),
+  user_name : z.string().min(3, "사용자 이름은 최소 3자리 이상 입력해주세요.").max(100, "사용자 이름은 최대 100자리까지 입력 가능합니다."),
+})
+
 export const FolderSchema = z.object({
   id: z.string().optional(),
   name: z.string().trim().min(1, "폴더명은 필수입니다."),
