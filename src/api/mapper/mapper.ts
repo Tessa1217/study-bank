@@ -1,7 +1,18 @@
 import type { StudySetRow, StudySetWithCard } from "@/api/sets.api";
-import type { StudyCardDraft, StudyFolderSummary, StudySetDetail, StudySetSummary } from "@/api/mapper/types";
+import type { StudyCardDraft, StudyFolderSummary, StudySetDetail, StudySetSummary, UserProfile } from "@/api/mapper/types";
 import type { StudyCardRow } from "@/api/cards.api";
 import type { StudyFolderRow } from "@/api/folder.api";
+import type { ProfilesRow } from "@/api/profile.api";
+
+export function toUserProfile(row: Partial<ProfilesRow>):UserProfile {
+  return {
+    id : row.id!,
+    user_name: row.user_name!,
+    avatar_url: row.avatar_url ?? '',
+    interests: row.interests ?? undefined,
+    languages: row.languages ?? undefined
+  }
+}
 
 export function toSetDTO(d: {id?: string, title: string, description?: string}) {
   return {

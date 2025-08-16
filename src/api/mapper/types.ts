@@ -1,3 +1,11 @@
+export type UserProfile = {
+  id: string;
+  user_name: string;
+  avatar_url?: string;
+  interests?: string[] | undefined;
+  languages?: string[] | undefined;
+}
+
 export type StudySetDraft = {
   id?: string;
   title: string;
