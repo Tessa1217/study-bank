@@ -42,7 +42,7 @@ export const useSignInWithOAuthMutation = (provider:Provider) => {
   })
 }
 
-export const useSignOut = () => {
+export const useSignOutMutation = () => {
   const navigate = useNavigate()
   return useMutation({
     mutationFn: async () => {

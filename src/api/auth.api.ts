@@ -5,6 +5,13 @@ export type Credentials = {
   password: string;
 }
 
+export type Profile = {
+  avatar_url: string;
+  user_name: string;
+  interests: string[];
+  languages: string[];
+}
+
 export type Provider = "github" | "google"
 
 export async function signInWithPassword(credentials:Credentials) {

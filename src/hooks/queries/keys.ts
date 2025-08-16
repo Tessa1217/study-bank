@@ -19,3 +19,8 @@ export const cardKeys = {
   all: ['cards'] as const,
   list: (setId:string) => [...cardKeys.all, 'list', setId] as const,  
 }
+
+export const profileKeys = {
+  all: ['user'] as const,
+  detail: (userId:string) => [...profileKeys.all, 'detail', userId] as const
+}
