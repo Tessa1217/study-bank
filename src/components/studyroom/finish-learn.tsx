@@ -26,9 +26,7 @@ const FinishLearn = ({
   return (
     <div className="flex items-center justify-between gap-8 p-6 rounded-2xl bg-white shadow">
       <div className="flex-1">
-        <h2 className="text-2xl font-bold mb-4">
-          좋아요! 모든 카드를 복습하셨어요.
-        </h2>
+        <h2 className="page-header mb-4">좋아요! 모든 카드를 복습하셨어요.</h2>
         <div className="space-y-2">
           <div className="h-3 bg-emerald-100 rounded-full overflow-hidden">
             <div

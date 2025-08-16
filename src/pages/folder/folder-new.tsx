@@ -23,8 +23,8 @@ export default function FolderNew() {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">폴더 생성</h1>
+    <div className="page">
+      <h1 className="page-header">폴더 생성</h1>
       <div className="card grid gap-4 max-w-2xl">
         <div className="grid gap-1">
           <label className="text-sm font-medium">폴더명 *</label>
@@ -47,7 +47,7 @@ export default function FolderNew() {
           />
         </div>
       </div>
-      <div className="flex justify-end gap-2">
+      <div className="btn-container">
         <button type="button" className="btn-outline">
           취소
         </button>

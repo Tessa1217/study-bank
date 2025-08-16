@@ -43,9 +43,9 @@ const SetNew = () => {
   };
 
   return (
-    <div className="space-y-6 relative max-h-full overflow-hidden">
+    <div className="page relative max-h-full overflow-hidden">
       <div className="flex justify-between align-middle content-center">
-        <h1 className="text-2xl font-bold">학습 세트 생성</h1>
+        <h1 className="page-header">학습 세트 생성</h1>
         <div className="flex justify-end gap-2 pt-2">
           <button className="btn-primary" onClick={onSave}>
             저장

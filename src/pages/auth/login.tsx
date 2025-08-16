@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full max-w-md space-y-6">
+    <div className="w-full max-w-md page">
       <h1 className="text-3xl font-bold text-gray-800 text-center">로그인</h1>
       <OAuthButton provider="github">
         <div className="flex justify-center items-center gap-2">

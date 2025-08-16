@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
-import { useSignOut } from "@/hooks/queries/useAuthQuery";
+import { useSignOutMutation } from "@/hooks/queries/useAuthQuery";
 import { useAuthStore } from "@/store/useAuthStore";
 import clsx from "clsx";
 import Button from "@/components/button/button";
@@ -10,7 +10,7 @@ import Divider from "@/components/ui/divider";
 const UserSetting = () => {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const profile = useAuthStore((state) => state.profile);
-  const { mutate: signOut } = useSignOut();
+  const { mutate: signOut } = useSignOutMutation();
 
   // 스크롤 움직일 경우 메뉴 닫기
   useEffect(() => {

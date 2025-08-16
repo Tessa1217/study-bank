@@ -60,7 +60,7 @@ const Learn = () => {
 
   if (finished) {
     return (
-      <div className="space-y-6">
+      <div className="page">
         <FinishLearn
           completed={stats.completedCount}
           total={stats.totalCount}
@@ -72,8 +72,8 @@ const Learn = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">학습하기</h2>
+    <div className="page">
+      <h2 className="page-header">학습하기</h2>
       {activeCard && (
         <div className="flex flex-col gap-4 relative max-w-4xl">
           <FlashCard card={activeCard} />

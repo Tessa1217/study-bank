@@ -14,8 +14,8 @@ export default function FolderPage() {
 
   if (!folder) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold">폴더를 찾을 수 없어요</h1>
+      <div className="page">
+        <h1 className="page-header">폴더를 찾을 수 없어요</h1>
         <p className="text-sm text-gray-600">
           링크가 유효하지 않거나 접근 권한이 없을 수 있어요.
         </p>
@@ -30,8 +30,8 @@ export default function FolderPage() {
   const { name, description } = folder;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{name}</h1>
+    <div className="page">
+      <h1 className="page-header">{name}</h1>
       <div className="text-gray-700 whitespace-pre-wrap">
         {description || "설명이 없습니다."}
       </div>
@@ -52,7 +52,7 @@ export default function FolderPage() {
 
 function FolderSkeleton() {
   return (
-    <div className="space-y-6">
+    <div className="page">
       <div className="h-7 w-40 rounded bg-gray-200 animate-pulse" />
       <div className="h-5 w-64 rounded bg-gray-200 animate-pulse" />
       <div className="h-10 w-48 rounded bg-gray-200 animate-pulse" />
