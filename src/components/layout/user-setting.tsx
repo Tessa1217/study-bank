@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import { useSignOutMutation } from "@/hooks/queries/useAuthQuery";
 import { useAuthStore } from "@/store/useAuthStore";
 import clsx from "clsx";
+import Image from "@/components/ui/image";
 import Button from "@/components/button/button";
 import Divider from "@/components/ui/divider";
 
@@ -43,15 +44,12 @@ const UserSetting = () => {
           <div className="dropdown-menu">
             <ul className="flex flex-col w-full">
               <li className="p-3 flex flex-row justify-between gap-3">
-                <div
-                  className={clsx(
-                    "aspect-square rounded-full h-15 w-15",
-                    profile?.avatar_url ?? "bg-secondary"
-                  )}
-                >
-                  {profile?.avatar_url && (
-                    <img src={profile?.avatar_url} className="w-full h-full" />
-                  )}
+                <div className="aspect-square rounded-full h-15 w-15">
+                  <Image
+                    path={profile?.avatar_url ?? ""}
+                    fallbackSrc="https://placehold.co/96x96?text=Avatar"
+                    className="w-full h-full"
+                  />
                 </div>
                 <div className="overflow-hidden text-lg whitespace-nowrap text-ellipsis w-full">
                   <p className="font-semibold">환영합니다!</p>
