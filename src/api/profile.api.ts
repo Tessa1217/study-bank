@@ -28,7 +28,8 @@ export async function updateUserProfile(
     supabase
       .from("user_profiles")
       .update(updatePayload)
-      .select(PROFILE_COLUMNS)
+      .eq("id", updatePayload.id!)
+      .select(PROFILE_COLUMNS)      
       .single()
   );
 }
