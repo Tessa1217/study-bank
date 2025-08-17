@@ -12,7 +12,7 @@ export const useSignUpMutation = ({email, password}:{email: string; password: st
   const navigate = useNavigate()
   return useMutation({
     mutationFn: async () => {
-      const { data, error } = await signUp({email, password})
+      const { data } = await signUp({email, password})
       return data
     },
     onSuccess: () => {
