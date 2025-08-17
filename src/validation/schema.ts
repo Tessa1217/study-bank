@@ -6,6 +6,7 @@ export const CredentialSchema = z.object({
 })
 
 export const ProfileSchema = z.object({
+  id: z.string(),  
   avatar_url : z.string().optional(),
   user_name : z.string().min(3, "사용자 이름은 최소 3자리 이상 입력해주세요.").max(100, "사용자 이름은 최대 100자리까지 입력 가능합니다."),
 })
