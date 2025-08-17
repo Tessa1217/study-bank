@@ -6,6 +6,13 @@ export type UserProfile = {
   languages?: string[] | undefined;
 }
 
+export type UploadOptions = {
+  bucket?: string;
+  folder?: string;
+  upsert?: boolean;
+  signedUrlExpiresIn?: number;
+}
+
 export type StudySetDraft = {
   id?: string;
   title: string;
