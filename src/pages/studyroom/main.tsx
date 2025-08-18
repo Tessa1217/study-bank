@@ -1,8 +1,9 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { useSetWithCardsQuery } from "@/hooks/queries/useSetAndCardQuery";
 import type { StudySetDetail } from "@/api/mapper/types";
 import Learn from "@/pages/studyroom/learn";
 import { Pencil } from "lucide-react";
+import Button from "@/components/button/button";
 const Main = () => {
   const { setId } = useParams();
   const { data: studySet, isLoading } = useSetWithCardsQuery(setId);
@@ -44,6 +45,17 @@ const Main = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="flex flex-col justify-center items-center mt-4">
+            <Link to={`/set/${setId}/edit`}>
+              <Button
+                color="blue"
+                className="flex flex-row justify-center gap-4"
+              >
+                <span>단어 추가/삭제</span>
+                <Pencil />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
