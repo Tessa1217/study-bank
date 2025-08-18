@@ -26,7 +26,7 @@ const UserSetting = () => {
     <div className="relative group">
       <Button
         id="dropdown-opener"
-        color="gray"
+        color="secondary"
         variant="outline"
         className="btn btn-outline size-10 md:size-auto md:px-3 md:py-2"
         onClick={() => setOpenDropdown(!openDropdown)}
