@@ -57,6 +57,10 @@ const router = createBrowserRouter([
                 element: <Main />,
               },
               {
+                path: ":setId/edit",
+                element: <SetNew />,
+              },
+              {
                 path: ":setId/learn",
                 element: <Learn />,
               },
