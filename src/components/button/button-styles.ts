@@ -57,10 +57,15 @@ export function getButtonClasses({
       outline: "border border-purple-500 text-purple-500 hover:bg-purple-50",
       ghost: "text-purple-500 hover:bg-purple-50",
     },
-    gray: {
+    secondary: {
       solid: "bg-gray-500 text-white hover:bg-gray-600",
       outline: "border border-gray-400 text-gray-700 hover:bg-gray-50",
       ghost: "text-gray-700 hover:bg-gray-100",
+    },
+    primary: {
+      solid:  "bg-brand-600 text-white hover:bg-brand-900",
+      outline:"border border-brand-600 text-brand-900 hover:text-white hover:bg-brand-100",
+      ghost:  "text-brand-900 hover:bg-brand-200",
     },
   };
 
