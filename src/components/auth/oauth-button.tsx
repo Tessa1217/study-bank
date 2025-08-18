@@ -17,7 +17,7 @@ const OAuthButton = ({
   };
 
   return (
-    <Button width="full" size="lg" color="gray" onClick={onClick}>
+    <Button width="full" size="lg" color="secondary" onClick={onClick}>
       {children}
     </Button>
   );
