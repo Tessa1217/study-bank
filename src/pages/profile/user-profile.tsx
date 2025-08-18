@@ -180,14 +180,14 @@ const UserSetting = () => {
       </section>
       <div className="btn-container">
         <Button
-          color="gray"
+          color="secondary"
           onClick={onCancel}
           disabled={isUpdating || isUploading}
         >
           취소
         </Button>
         <Button
-          color="purple"
+          color="primary"
           onClick={onSave}
           disabled={isUpdating || isUploading}
         >
