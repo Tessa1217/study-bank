@@ -6,7 +6,8 @@ export type Color =
   | "green"
   | "blue"
   | "purple"
-  | "gray";
+  | "secondary"
+  | "primary";
 
 export type Size = "sm" | "md" | "lg" | "xl";
 
