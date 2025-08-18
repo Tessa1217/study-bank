@@ -18,6 +18,7 @@ import {
 } from "@/components/set/state/card.validation";
 
 type StudySet = {
+  id?: string;
   title: string;
   description?: string;
 };
@@ -89,7 +90,8 @@ export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
         dispatch({ type: "REORDER", payload: cards }),
       setActive: (id?: string) => dispatch({ type: "SET_ACTIVE", id }),
 
-      setMeta: (m: { title: string; description?: string }) => setMeta(m),
+      setMeta: (m: { id?: string; title: string; description?: string }) =>
+        setMeta(m),
 
       validateNow: () => {
         const next = validateSet({ ...meta, cards: state.cards });
