@@ -6,11 +6,11 @@ type DialogProps = {
   onClose: () => void;
   titleId?: string;
   descriptionId?: string;
-  initialFocusRef?: React.RefObject<HTMLElement>;
+  initialFocusRef?: React.RefObject<HTMLButtonElement | null>;
   disableOutsideClose?: boolean;
   children: (ctx: {
     close: () => void;
-    panelRef: React.RefObject<HTMLDivElement>;
+    panelRef: React.RefObject<HTMLDivElement | null>;
   }) => React.ReactNode;
 };
 
@@ -109,8 +109,7 @@ export default function Dialog({
       ref={overlayRef}
       onMouseDown={onOverlayMouseDown}
       aria-hidden="true"
-      className="fixed inset-0 z-[1000] grid sm:place-items-center
-             items-end"
+      className="fixed inset-0 z-[1000] grid sm:place-items-center items-end w-full"
     >
       <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[1px] animate-overlay-in" />
       <div
@@ -120,8 +119,7 @@ export default function Dialog({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className="relative w-full sm:w-auto animate-panel-in
-               sm:place-self-center"
+        className="relative w-full sm:w-auto animate-panel-in sm:place-self-center"
       >
         {children({ close: onClose, panelRef })}
       </div>
