@@ -1,11 +1,17 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import CardEditor from "@/components/set/card-editor";
 import {
   CardEditorProvider,
   useCardEditor,
 } from "@/components/set/card-editor-context";
 import clsx from "clsx";
-import { useSaveSetWithCardsMutation } from "@/hooks/queries/useSetAndCardQuery";
+import {
+  useSaveSetWithCardsMutation,
+  useSetWithCardsQuery,
+} from "@/hooks/queries/useSetAndCardQuery";
+import Button from "@/components/button/button";
+import SetData from "@/pages/set/set-data";
 
 const SetPage = () => {
   return (
@@ -18,6 +24,23 @@ const SetPage = () => {
 const SetNew = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const { state, meta, submitAttempted, actions, errors } = useCardEditor();
+
+  const { setId } = useParams();
+
+  const { data: editSet } = useSetWithCardsQuery(setId);
+
+  useEffect(() => {
+    if (editSet) {
+      const { cards, ...meta } = editSet;
+      const { init, setMeta } = actions;
+      setMeta({
+        id: meta.id,
+        title: meta.title,
+        description: meta.description ?? undefined,
+      });
+      init(cards);
+    }
+  }, [editSet]);
 
   const { mutate: saveSetWithCards } = useSaveSetWithCardsMutation();
 
@@ -47,9 +70,10 @@ const SetNew = () => {
       <div className="flex justify-between align-middle content-center">
         <h1 className="page-header">학습 세트 생성</h1>
         <div className="flex justify-end gap-2 pt-2">
-          <button className="btn-primary" onClick={onSave}>
+          <Button color="primary" onClick={onSave}>
             저장
-          </button>
+          </Button>
+          <SetData></SetData>
         </div>
       </div>
 
