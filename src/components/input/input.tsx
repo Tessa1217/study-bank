@@ -21,6 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       inputSize,
       variant,
       disabled,
+      className,
       ...props
     },
     ref
@@ -31,13 +32,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       variant,
       disabled,
     });
+
     return (
       <input
         ref={ref}
         value={value}
         defaultValue={defaultValue}
         onChange={onChange}
-        className={inputClass}
+        className={[inputClass, className].join(" ")}
+        disabled={disabled}
         {...props}
       />
     );
