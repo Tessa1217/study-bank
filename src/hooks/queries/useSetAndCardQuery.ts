@@ -34,7 +34,7 @@ export function useSaveSetWithCardsMutation() {
       // 상세 캐시 업데이트
       if (id) {
         qc.setQueryData(setWithCardsKeys.detail(id), toSetDetail({ ...set, study_card: result?.data.cards } as any));
-        qc.invalidateQueries({ queryKey: setsKeys.list() });
+        qc.invalidateQueries({ queryKey: setWithCardsKeys.detail(id) });
       } else {
         qc.invalidateQueries({ queryKey: setsKeys.list() });
       }
