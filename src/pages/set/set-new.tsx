@@ -76,7 +76,6 @@ const SetNew = () => {
           <SetData></SetData>
         </div>
       </div>
-
       <header className="card grid gap-3">
         <div className="grid gap-1">
           <label className="text-sm font-medium">세트명 *</label>
