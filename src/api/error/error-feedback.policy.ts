@@ -1,70 +1,32 @@
-import { ErrorType } from "@/api/error/error.types";
-import type { AppError } from "@/api/error/error.types";
-import { DEFAULT_MESSAGE } from "@/api/error/error-defaults";
-import type { Feedback } from "@/types";
+import type { AppError } from "./error.types";
 
-export type ErrorFeedbackVariant = Feedback
+/**
+ * 에러 피드백 정책
+ * - GLOBAL_ALERT: 전역 Alert로 사용자에게 메시지를 보여줌
+ * - LOCAL_ALERT: 컴포넌트 레벨에서 개별적으로 처리 (e.g., 입력 필드 아래 에러 메시지)
+ * - SILENT: 아무런 피드백을 주지 않음 (e.g., 백그라운드 동기화 실패)
+ */
+export type ErrorFeedbackPolicy = "GLOBAL_ALERT" | "LOCAL_ALERT" | "SILENT";
 
-export interface ErrorUiPolicy {
-  variant: ErrorFeedbackVariant;
-  defaultMessage: string;
-  actionLabel?: string;
-  action?: (err: AppError) => void;
+// AppError 타입을 기반으로 어떤 정책을 사용할지 결정
+export function getFeedbackPolicy(error: AppError): ErrorFeedbackPolicy {
+  switch (error.type) {
+    // 즉시 사용자에게 알려야 하는 심각한 에러
+    case "NETWORK":
+    case "SERVER":
+    case "AUTH":
+    case "PERMISSION":
+      return "GLOBAL_ALERT";
+
+    // 사용자의 입력 값 오류 등, 특정 UI와 관련된 에러
+    case "VALIDATION":
+    case "CONFLICT":
+      return "LOCAL_ALERT";
+
+    // 개발자가 인지해야 하지만, 사용자에게 직접 알릴 필요는 없는 경우
+    case "UNKNOWN":
+    case "TIMEOUT":
+    default:
+      return "SILENT";
+  }
 }
-
-export const ERROR_FEEDBACK_POLICY: Record<keyof typeof ErrorType, ErrorUiPolicy> = {
-  NETWORK: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.NETWORK,
-    actionLabel: "재시도",
-  },
-  TIMEOUT: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.TIMEOUT,
-    actionLabel: "재시도",
-  },
-  AUTH: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.AUTH,
-    actionLabel: "로그인하기",
-    action: () => {
-      window.location.href = "/login";
-    },
-  },
-  PERMISSION: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.PERMISSION,
-  },
-  VALIDATION: {
-    variant: "info",
-    defaultMessage: DEFAULT_MESSAGE.VALIDATION,
-  },
-  CONFLICT: {
-    variant: "info",
-    defaultMessage: DEFAULT_MESSAGE.CONFLICT,
-  },
-  NOT_FOUND: {
-    variant: "info",
-    defaultMessage: DEFAULT_MESSAGE.NOT_FOUND,
-  },
-  RATE_LIMIT: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.RATE_LIMIT,
-  },
-  STORAGE: {
-    variant: "error",
-    defaultMessage: DEFAULT_MESSAGE.STORAGE,
-  },
-  REALTIME: {
-    variant: "warning",
-    defaultMessage: DEFAULT_MESSAGE.REALTIME,
-  },
-  SERVER: {
-    variant: "error",
-    defaultMessage: DEFAULT_MESSAGE.SERVER,
-  },
-  UNKNOWN: {
-    variant: "error",
-    defaultMessage: DEFAULT_MESSAGE.UNKNOWN,
-  },
-};
