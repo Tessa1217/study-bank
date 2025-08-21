@@ -1,35 +1,33 @@
-import {
-  sbExecMany,
-  sbExecOne,
-  supabase,
-  type SbResult,
-} from "@/api/shared/sb-api";
-import type { Row, Insert, Update } from "@/api/shared/types";
+import type { SbResult } from "@/api/shared/sb-api";
+import type {
+  StudyFolderInsert,
+  StudyFolderUpdate,
+  StudyFolderRow,
+} from "@/api/repository/studyFolder.repository";
+import { studyFolderRepository } from "@/api/repository/studyFolder.repository";
 
-export type StudyFolderRow = Row<"study_folder">;
-type StudyFolderInsert = Insert<"study_folder">;
-type StudyFolderUpdate = Update<"study_folder">;
-
-export async function getStudyFolderList(): SbResult<StudyFolderRow[]> {
-  const folderBuilder = supabase.from("study_folder").select("*");
-  return sbExecMany(folderBuilder);
+export async function getStudyFolders(): SbResult<StudyFolderRow[]> {
+  return studyFolderRepository.findAll();
 }
 
 export async function getStudyFolder(
   folderId: string
 ): SbResult<StudyFolderRow> {
-  const folderBuilder = supabase
-    .from("study_folder")
-    .select("*")
-    .eq("id", folderId)
-    .single();
-
-  return sbExecOne(folderBuilder);
+  return studyFolderRepository.findById(folderId);
 }
 
-export async function insertStudyFolder(
+export async function createStudyFolder(
   payload: StudyFolderInsert
 ): SbResult<StudyFolderRow> {
-  const folderBuilder = supabase.from("study_folder").insert(payload).select().single();
-  return sbExecOne(folderBuilder);
+  return studyFolderRepository.create(payload);
+}
+
+export async function updateStudyFolder(
+  payload: StudyFolderUpdate
+): SbResult<StudyFolderRow> {
+  return studyFolderRepository.update(payload);
+}
+
+export async function deleteStudyFolder(id: string) {
+  return studyFolderRepository.deleteById(id);
 }
