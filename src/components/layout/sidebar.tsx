@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { Library, FolderOpen, BarChart3, Settings, Folder } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getStudyFolderList, type StudyFolderRow } from "@/api/folder.api";
+import type { StudyFolderRow } from "@/api/repository/studyFolder.repository";
+import { getStudyFolders } from "@/api/folder.api";
+
 const SideLink = ({
   to,
   icon,
@@ -51,7 +53,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const fetchStudyFolder = async () => {
-      const { data } = await getStudyFolderList();
+      const { data } = await getStudyFolders();
       if (data) {
         setUserFolders(data);
       }
