@@ -1,4 +1,5 @@
 import { useRef, useMemo, useState, useDeferredValue } from "react";
+import { useCardEditor } from "@/components/set/card-editor-context";
 import Dialog from "@/components/ui/dialog";
 import Button from "@/components/button/button";
 import { X } from "lucide-react";
@@ -11,6 +12,9 @@ type Row = { word: string; definition: string };
 const SetData = () => {
   const [open, setOpen] = useState(false);
   const okRef = useRef<HTMLButtonElement>(null);
+  const {
+    actions: { addBatchCards },
+  } = useCardEditor();
 
   // 선택된 구분자 키
   const [splitterKey, setSplitterKey] = useState<SetOption["value"]>("space");
@@ -29,6 +33,7 @@ const SetData = () => {
         <Input
           id="customSplitter"
           name="customSplitter"
+          inputWidth="full"
           value={customSplitter}
           disabled={splitterKey !== "custom"}
           onChange={(e) => setCustomSplitter(e.target.value)}
@@ -48,6 +53,7 @@ const SetData = () => {
         <Input
           id="customCardSplitter"
           name="customCardSplitter"
+          inputWidth="full"
           value={customCardSplitter}
           onChange={(e) => setCustomCardSplitter(e.target.value)}
           disabled={cardSplitterKey !== "custom"}
@@ -124,6 +130,11 @@ const SetData = () => {
     return { rows, errorCount, total: rawRows.length };
   }, [deferredData, fieldSep, rowSep]);
 
+  const onAddBatchCards = () => {
+    addBatchCards(rows);
+    setOpen(false);
+  };
+
   return (
     <>
       <Button ref={okRef} onClick={() => setOpen(true)}>
@@ -141,9 +152,9 @@ const SetData = () => {
           <div
             ref={panelRef}
             className="
-              w-full max-w-5xl bg-white shadow-soft ring-1 ring-slate-200
+              w-full max-w-5xl h-full bg-white shadow-soft ring-1 ring-slate-200
               focus:outline-none sm:rounded-2xl rounded-t-2xl text-left
-              grid grid-rows-[auto,1fr,auto] max-h-[min(85vh,900px)]
+              grid grid-rows-[auto,1fr,auto] max-h-[min(70vh,700px)]
             "
             tabIndex={0}
           >
@@ -170,7 +181,7 @@ const SetData = () => {
               id="m-desc"
               className="px-5 pb-4 pt-3 sm:px-6 sm:pb-4 sm:pt-4 text-slate-700 overflow-hidden"
             >
-              <div className="grid gap-6 h-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
                 {/* 왼쪽: 입력/설정 */}
                 <div className="flex flex-col gap-4 h-full">
                   <div>
@@ -276,7 +287,9 @@ const SetData = () => {
                 <Button color="secondary" variant="outline" onClick={close}>
                   취소
                 </Button>
-                <Button color="primary">확인</Button>
+                <Button color="primary" onClick={onAddBatchCards}>
+                  확인
+                </Button>
               </div>
             </div>
           </div>
