@@ -14,15 +14,31 @@
 /* === Components === */
 @layer components {
   .page {
-    @apply space-y-6;
+    @apply flex flex-1 justify-center px-4 sm:px-6 lg:px-10 py-6;
+  }
+
+  .page-content {
+    @apply flex w-full max-w-screen-xl flex-col gap-6;
   }
 
   .page-header {
-    @apply text-2xl font-bold;
+    @apply flex flex-wrap items-end justify-between gap-3 p-2 sm:p-0;
   }
 
-  .page-sub-header {
-    @apply mt-1 text-sm text-slate-600;
+  .page-title-container {
+    @apply flex min-w-72 flex-col gap-1;
+  }
+
+  .page-title {
+    @apply text-[28px] sm:text-[32px] font-bold leading-tight tracking-[-0.015em];
+  }
+
+  .page-sub-title {
+    @apply text-sm text-[#655095];
+  }
+
+  .page-btn-container {
+    @apply flex flex-wrap items-center gap-2;
   }
 
   .card {
@@ -54,17 +70,38 @@
     @apply border hover:bg-slate-100;
   }
 
+  .label {
+    @apply text-sm font-medium;
+  }
+
   .input {
     @apply w-full rounded-xl border px-3 py-2
            focus:outline-none focus:ring-2 focus:ring-indigo-500;
-    :disabled {
-      @apply bg-secondary;
-    }
+  }
+
+  .input:disabled {
+    @apply bg-secondary;
+  }
+
+  .input.error {
+    @apply border-red-500 ring-red-500;
+  }
+
+  .error-text {
+    @apply text-red-600 text-xs;
+  }
+
+  .explain-text {
+    @apply text-slate-500 text-xs;
   }
 
   .radio {
     @apply align-middle rounded-full border focus:outline-none
           focus:ring-indigo-500 transition;
+  }
+
+  .textarea {
+    @apply resize-y rounded-xl border p-3 focus:outline-none focus:ring-indigo-500;
   }
 
   .select {
@@ -74,6 +111,10 @@
   .chip {
     @apply inline-flex items-center gap-1 rounded-full bg-slate-100
            px-2 py-0.5 text-xs;
+  }
+
+  .skeleton-container {
+    @apply bg-gray-200 animate-pulse rounded;
   }
 }
 
