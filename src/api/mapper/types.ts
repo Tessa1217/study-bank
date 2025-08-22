@@ -1,3 +1,17 @@
+export type Credentials = {
+  email: string;
+  password: string;
+}
+
+export type Provider = "github" | "google"
+
+export type Profile = {
+  avatar_url: string;
+  user_name: string;
+  interests: string[];
+  languages: string[];
+}
+
 export type UserProfile = {
   id: string;
   user_name: string;
