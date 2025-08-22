@@ -66,64 +66,71 @@ const SetNew = () => {
   };
 
   return (
-    <div className="page relative max-h-full overflow-hidden">
-      <div className="flex justify-between align-middle content-center">
-        <h1 className="page-header">학습 세트 생성</h1>
-        <div className="flex justify-end gap-2 pt-2">
-          <Button color="primary" onClick={onSave}>
-            저장
-          </Button>
-          <SetData></SetData>
-        </div>
-      </div>
-      <header className="card grid gap-3">
-        <div className="grid gap-1">
-          <label className="text-sm font-medium">세트명 *</label>
-          <input
-            placeholder="예: HTML/CSS 기본"
-            ref={titleRef}
-            className={clsx(
-              "input",
-              errors.set?.title?.length ? "border-red-500 ring-red-500" : ""
-            )}
-            value={meta.title}
-            onChange={(e) =>
-              actions.setMeta({ ...meta, title: e.target.value })
-            }
-          />
-          {submitAttempted &&
-            errors.set?.title?.map((m) => (
-              <p key={m} className="text-red-600 text-xs">
-                {m}
-              </p>
-            ))}
-        </div>
-        <div className="grid gap-1">
-          <label className="text-sm font-medium">설명</label>
-          <textarea
-            className="input min-h-20"
-            placeholder="세트 설명"
-            value={meta.description}
-            onChange={(e) =>
-              actions.setMeta({ ...meta, description: e.target.value })
-            }
-          />
-          {submitAttempted &&
-            errors.set?.description?.map((m) => (
-              <p key={m} className="text-red-600 text-xs">
-                {m}
-              </p>
-            ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="ml-auto flex gap-2">
-            <button className="btn-outline">학습</button>
-            <button className="btn-outline">퀴즈</button>
-            <button className="btn-primary">공유</button>
+    <div className="page">
+      <div className="page-content">
+        <div className="page-header">
+          <div className="page-title-container">
+            <h1 className="page-title">학습 세트 생성</h1>
+            <p className="page-sub-title">나만의 학습 세트를 생성해보세요.</p>
+          </div>
+          <div className="page-btn-container">
+            <Button color="primary" onClick={onSave}>
+              저장
+            </Button>
+            <SetData></SetData>
           </div>
         </div>
-      </header>
-      <CardEditor />
+        <header className="card grid gap-3">
+          <div className="grid gap-1">
+            <label className="label">세트명 *</label>
+            <input
+              placeholder="예: HTML/CSS 기본"
+              ref={titleRef}
+              className={clsx(
+                "input",
+                errors.set?.title?.length ? "border-red-500 ring-red-500" : ""
+              )}
+              value={meta.title}
+              onChange={(e) =>
+                actions.setMeta({ ...meta, title: e.target.value })
+              }
+            />
+            {submitAttempted &&
+              errors.set?.title?.map((m) => (
+                <p key={m} className="error-text">
+                  {m}
+                </p>
+              ))}
+          </div>
+          <div className="grid gap-1">
+            <label className="label">설명</label>
+            <textarea
+              className="input min-h-20"
+              placeholder="세트 설명"
+              value={meta.description}
+              onChange={(e) =>
+                actions.setMeta({ ...meta, description: e.target.value })
+              }
+            />
+            {submitAttempted &&
+              errors.set?.description?.map((m) => (
+                <p key={m} className="error-text">
+                  {m}
+                </p>
+              ))}
+          </div>
+          {setId && (
+            <div className="page-btn-container">
+              <div className="ml-auto flex gap-2">
+                <Button variant="outline">학습</Button>
+                <Button variant="outline">학습</Button>
+                <Button color="primary">학습</Button>
+              </div>
+            </div>
+          )}
+        </header>
+        <CardEditor />
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { useFolderQuery } from "@/hooks/queries/useFolderQuery";
 import { BookA } from "lucide-react";
+import Button from "@/components/button/button";
 
 export default function FolderPage() {
   const { folderId } = useParams();
@@ -16,12 +17,12 @@ export default function FolderPage() {
     return (
       <div className="page">
         <h1 className="page-header">폴더를 찾을 수 없어요</h1>
-        <p className="text-sm text-gray-600">
+        <p className="explain-text">
           링크가 유효하지 않거나 접근 권한이 없을 수 있어요.
         </p>
-        <button className="btn-outline" onClick={() => navigate(-1)}>
+        <Button variant="outline" onClick={() => navigate(-1)}>
           뒤로 가기
-        </button>
+        </Button>
       </div>
     );
   }
@@ -53,9 +54,9 @@ export default function FolderPage() {
 function FolderSkeleton() {
   return (
     <div className="page">
-      <div className="h-7 w-40 rounded bg-gray-200 animate-pulse" />
-      <div className="h-5 w-64 rounded bg-gray-200 animate-pulse" />
-      <div className="h-10 w-48 rounded bg-gray-200 animate-pulse" />
+      <div className="skeleton-container h-7 w-40" />
+      <div className="skeleton-container h-5 w-64" />
+      <div className="skeleton-container h-10 w-48" />
     </div>
   );
 }

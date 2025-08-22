@@ -187,9 +187,7 @@ const SetData = () => {
                     </p>
                   </div>
                   <textarea
-                    className="w-full h-64 resize-y rounded-xl border p-3 focus:outline-none
-                               focus:ring-[var(--default-ring-width)]
-                               focus:ring-[var(--default-ring-color)]"
+                    className="textarea w-full h-64"
                     placeholder={textPlaceholder}
                     value={data}
                     onChange={(e) => setData(e.target.value)}

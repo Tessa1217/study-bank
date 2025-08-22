@@ -33,19 +33,17 @@ const Library = () => {
   const loading = studyFolderLoading || studySetLoading;
 
   return (
-    <div className="flex flex-1 justify-center px-4 sm:px-6 lg:px-10 py-6">
-      <div className="flex w-full max-w-screen-xl flex-col gap-6">
+    <div className="page">
+      <div className="page-content">
         {/* Header */}
-        <div className="flex flex-wrap items-end justify-between gap-3 p-2 sm:p-0">
-          <div className="flex min-w-72 flex-col gap-1">
-            <h1 className="text-[28px] sm:text-[32px] font-bold leading-tight tracking-[-0.015em]">
-              내 라이브러리
-            </h1>
-            <p className="text-sm text-[#655095]">
+        <div className="page-header">
+          <div className="page-title-container">
+            <h1 className="page-title">내 라이브러리</h1>
+            <p className="page-sub-title">
               나만의 학습 자료들을 만들고 한눈에 확인해보세요.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="page-btn-container">
             <NavLink
               to="/folder/new"
               className="btn-outline flex items-center gap-1 h-10"
