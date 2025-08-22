@@ -33,6 +33,7 @@ type EditorCtx = {
   actions: {
     init: (cards: CardState["cards"]) => void;
     addCard: (partial?: Partial<CardState["cards"][number]>) => void;
+    addBatchCards: (batch?: Partial<CardState["cards"][number]>[]) => void;
     updateWord: (id: string, text: string) => void;
     updateDefinition: (id: string, text: string) => void;
     removeCard: (id: string) => void;
@@ -81,6 +82,8 @@ export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
         dispatch({ type: "INIT", payload: cards }),
       addCard: (partial?: Partial<CardState["cards"][number]>) =>
         dispatch({ type: "ADD_CARD", payload: partial }),
+      addBatchCards: (batch?: Partial<CardState["cards"][number]>[]) =>
+        dispatch({ type: "ADD_BATCH_CARDS", payload: batch }),
       updateWord: (id: string, text: string) =>
         dispatch({ type: "UPDATE_TEXT", id, side: "word", text }),
       updateDefinition: (id: string, text: string) =>

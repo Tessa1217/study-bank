@@ -10,6 +10,14 @@ export function cardReducer(state: CardState, action : CardAction) : CardState {
       const order = (state.cards.at(-1)?.sort_order ?? 0) + 1
       const next = createCard(order, action.payload)
       return {...state, cards: [...state.cards, next], activeId : next.id}
+    case "ADD_BATCH_CARDS":      
+      const base_order = (state.cards.at(-1)?.sort_order ?? 0) + 1
+      const batch = action.payload?.map((card, i) => {        
+        return createCard(base_order + i, card)
+      }) ?? []
+      const nextId = batch.length ? batch?.at(-1)?.id : state.activeId
+      return { ...state, cards: [...state.cards, ...batch], activeId: nextId}
+
     case "UPDATE_TEXT": {
       const cards = state.cards.map(c =>
         c.id === action.id ? { ...c, [action.side]: action.text } : c
