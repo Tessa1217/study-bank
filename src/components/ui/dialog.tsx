@@ -109,7 +109,7 @@ export default function Dialog({
       ref={overlayRef}
       onMouseDown={onOverlayMouseDown}
       aria-hidden="true"
-      className="fixed inset-0 z-[1000] grid sm:place-items-center items-end w-full"
+      className="fixed inset-0 z-[1000] grid place-items-center w-full h-full overflow-hidden"
     >
       <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[1px] animate-overlay-in" />
       <div
@@ -119,7 +119,7 @@ export default function Dialog({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className="relative w-full sm:w-auto animate-panel-in sm:place-self-center"
+        className="relative w-full sm:w-auto h-screen grid place-items-center animate-panel-in"
       >
         {children({ close: onClose, panelRef })}
       </div>
