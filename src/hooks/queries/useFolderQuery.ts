@@ -2,7 +2,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { foldersKeys } from '@/hooks/queries/keys'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/useAuthStore';
-import { getStudyFolder as apiGetStudyFolder, getStudyFolderList as apiGetStudyFolderList, insertStudyFolder as apiInsertStudyFolder } from '@/api/folder.api'
+import { getStudyFolder, getStudyFolders, createStudyFolder } from '@/api/folder.api'
 import { toFolderSummary } from '@/api/mapper/mapper'
 
 /** 폴더 목록 조회 */
@@ -10,7 +10,7 @@ export function useFolderListQuery() {
   return useQuery({
     queryKey: foldersKeys.list(),
     queryFn: async () => {
-      const {data}  = await apiGetStudyFolderList()
+      const {data}  = await getStudyFolders()
       return data
     },
     select: (rows) => rows?.map(toFolderSummary)
@@ -23,7 +23,7 @@ export function useFolderQuery(folderId : string | undefined) {
     enabled: !!folderId,
     queryFn: async () => {
       if (!folderId) throw new Error("Missing Folder Id")
-      const { data } = await apiGetStudyFolder(folderId)
+      const { data } = await getStudyFolder(folderId)
       return data
     },
     select: (row) => row ? toFolderSummary(row) : undefined
@@ -38,7 +38,7 @@ export function useFolderMutation() {
 
   return useMutation({
     mutationFn: async (payload: any) => {
-      const res = await apiInsertStudyFolder({ ...payload, user_id: uid });
+      const res = await createStudyFolder({ ...payload, user_id: uid });
       if (res.error) throw res.error;
       return res.data!;
     },

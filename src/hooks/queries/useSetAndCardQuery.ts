@@ -3,7 +3,7 @@ import { setWithCardsKeys, setsKeys } from '@/hooks/queries/keys';
 import { callEdge } from '@/api/shared/edge';
 import { toSetDTO, toCardsDTO, toSetDetail } from '@/api/mapper/mapper';
 import type { StudyCardDraft, StudySetDraft } from '@/api/mapper/types';
-import { getStudySet as apiGetSetWithCards } from '@/api/sets.api'; 
+import { getStudySetById } from '@/api/sets.api'; 
 
 /** 상세(세트 + 카드들) 조회 */
 export function useSetWithCardsQuery(id: string | undefined) {
@@ -12,7 +12,7 @@ export function useSetWithCardsQuery(id: string | undefined) {
     enabled: !!id,
     queryFn: async () => {
       if (!id) throw new Error('Missing set id');
-      const res = await apiGetSetWithCards(id);
+      const res = await getStudySetById(id);
       if (res.error) throw res.error;
       return res.data!;
     },

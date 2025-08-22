@@ -1,14 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { signInOAuth, signInWithPassword, signOut, signUp } from "@/api/auth.api";
-import type { Provider } from "@/api/auth.api";
+import type { Credentials, Provider } from "@/api/mapper/types";
 
-export type Credential = {
-  email: string;
-  password: string;
-};
-
-export const useSignUpMutation = ({email, password}:{email: string; password: string}) => {
+export const useSignUpMutation = ({email, password}:Credentials) => {
   const navigate = useNavigate()
   return useMutation({
     mutationFn: async () => {
@@ -21,7 +16,7 @@ export const useSignUpMutation = ({email, password}:{email: string; password: st
   })
 }
 
-export const useSignInWithPasswordMutation = ({email, password}:{email: string; password: string;}) => {
+export const useSignInWithPasswordMutation = ({email, password}:Credentials) => {
   const navigate = useNavigate()
   return useMutation({
     mutationFn: async () => {
