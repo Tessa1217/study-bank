@@ -1,18 +1,5 @@
 import { supabase } from "@/lib/supabase";
-
-export type Credentials = {
-  email: string;
-  password: string;
-}
-
-export type Profile = {
-  avatar_url: string;
-  user_name: string;
-  interests: string[];
-  languages: string[];
-}
-
-export type Provider = "github" | "google"
+import type { Credentials, Provider } from "@/api/mapper/types";
 
 export async function signInWithPassword(credentials:Credentials) {
   return await supabase.auth.signInWithPassword(credentials)  

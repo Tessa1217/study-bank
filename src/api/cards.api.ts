@@ -1,15 +1,11 @@
 import type { SbResult } from "@/api/shared/sb-api";
-import { sbExecMany, supabase } from "@/api/shared/sb-api";
-import type { Row, Insert } from "@/api/shared/types";
-export type StudyCardRow = Row<"study_card">
-type StudyCardUpsert = Insert<"study_card">
+import type { StudyCardRow, StudyCardUpsert } from '@/api/repository/studyCard.repository'
+import { studyCardRepository } from "@/api/repository/studyCard.repository";
 
-export async function getStudyCardList(setId:string):SbResult<StudyCardRow[]> {
-  const cardBuilder = supabase.from('study_card').select("*").eq("set_id", setId)
-  return sbExecMany(cardBuilder)
+export async function getStudyCardsBySetId(setId:string):SbResult<StudyCardRow[]> {
+  return studyCardRepository.fetchAllBySetId(setId)
 }
 
-export async function upsertStudyCard(payload:StudyCardUpsert[]):SbResult<StudyCardRow[]> {
-  const cardBuilder = supabase.from("study_card").upsert(payload).select()
-  return sbExecMany(cardBuilder)
+export async function saveStudyCards(payloads:StudyCardUpsert[]):SbResult<StudyCardRow[]> {
+  return studyCardRepository.upsertAll(payloads)
 }
