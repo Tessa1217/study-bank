@@ -1,4 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
+
+export type Progress = {
+  current: number;
+  end : number;
+}
+
 export function useStudyFlow<T>(cards:T[] | undefined) {
   // 총 카드 개수
   const total = cards?.length ?? 0
@@ -35,7 +41,7 @@ export function useStudyFlow<T>(cards:T[] | undefined) {
   const activeCard = useMemo(() => (hasCards? cards![idx] : undefined), [idx, cards, hasCards])
 
   // 진행 상태 - progress bar
-  const progress = useMemo(() => ({current: idx, end : Math.max(total - 1, 0)}), [idx, total])
+  const progress : Progress = useMemo(() => ({current: idx, end : Math.max(total - 1, 0)}), [idx, total])
 
   const stats = useMemo(() => ({
     completedCount : finished ? total : Math.min(idx, total),
