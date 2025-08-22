@@ -12,20 +12,18 @@ export const studySetRepository = {
   findById: (id: string): SbResult<StudySetWithCard> => {
     const builder = supabase
       .from("study_set")
-      .select(
-        `
-                                id,
-                                title,
-                                description,
-                                study_card (
-                                  id,
-                                  word,                                  
-                                  definition,
-                                  sort_order,
-                                  word_lang,
-                                  definition_lang,
-                                  set_id
-                                )`
+      .select(`id,
+               title,
+               description,
+               study_card (
+                            id,
+                            word,                                  
+                            definition,
+                            sort_order,
+                            word_lang,
+                            definition_lang,
+                            set_id
+                          )`
       )
       .eq("id", id)
       .single();
