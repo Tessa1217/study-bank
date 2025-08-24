@@ -19,7 +19,8 @@ export function getButtonClasses({
   disabled = false,
   iconOnly = false,
 }: BaseButtonProps) {
-  const baseClasses = "font-medium rounded transition-colors cursor-pointer";
+  const baseClasses =
+    "font-medium rounded transition-colors cursor-pointer border-box";
 
   const colorMap: Record<Color, { [key in Variant]: string }> = {
     red: {
@@ -63,9 +64,10 @@ export function getButtonClasses({
       ghost: "text-gray-700 hover:bg-gray-100",
     },
     primary: {
-      solid:  "bg-brand-600 text-white hover:bg-brand-900",
-      outline:"border border-brand-600 text-brand-900 hover:text-white hover:bg-brand-100",
-      ghost:  "text-brand-900 hover:bg-brand-200",
+      solid: "bg-brand-600 text-white hover:bg-brand-900",
+      outline:
+        "border border-brand-600 text-brand-900 hover:text-white hover:bg-brand-100",
+      ghost: "text-brand-900 hover:bg-brand-200",
     },
   };
 
