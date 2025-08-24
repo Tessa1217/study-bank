@@ -6,34 +6,36 @@ export function useSetEditorSave(actions, meta, state, titleRef) {
   const { showConfirm, showSuccessAlert } = useAlert();
 
   const validateSetWithCards = () => {
-    const { ok, firstError } = actions.validateNow();
-    if (!ok) {
-      if (firstError?.scope === "set") {
-        if (firstError.field === "title") titleRef.current?.focus();
-      } else if (firstError?.scope === "card" && firstError.cardId) {
-        actions.setActive(firstError.cardId);
-        requestAnimationFrame(() => {
-          document
-            .querySelector<HTMLElement>(
-              `[data-card-id="\${firstError.cardId}"]`
-            )
-            ?.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
-      }
-    }
-    return { ok, firstError };
+    return actions.validateNow();
   };
 
   const handleSave = () => {
     return new Promise((resolve, reject) => {
       const { ok, firstError } = validateSetWithCards();
-      if (!ok) return reject(firstError);
+      if (!ok) {
+        if (firstError?.scope === "set") {
+          if (firstError.field === "title") titleRef.current?.focus();
+        } else if (firstError?.scope === "card" && firstError.cardId) {
+          actions.setActive(firstError.cardId);
+          requestAnimationFrame(() => {
+            document
+              .querySelector<HTMLElement>(
+                `[data-card-id="\${firstError.cardId}"]`
+              )
+              ?.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+        return reject(firstError);
+      }
       save(
         { set: meta, cards: state.cards },
         {
           onSuccess: (result) => {
             actions.clearErrors();
             resolve(result);
+          },
+          onError: (error) => {
+            reject(error);
           },
         }
       );
