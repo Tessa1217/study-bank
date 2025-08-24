@@ -1,9 +1,9 @@
 import { MESSAGE_CONSTANT } from "@/constants/message";
-export function getMessage(path: string) {
+export function getMessage(path: string): string | null {
   const keys = path.split(".");
 
   const message = (function () {
-    let messageObject = MESSAGE_CONSTANT;
+    let messageObject: any = MESSAGE_CONSTANT;
     for (const key of keys) {
       if (messageObject && key in messageObject) {
         messageObject = messageObject[key];
@@ -14,5 +14,5 @@ export function getMessage(path: string) {
     return messageObject;
   })();
 
-  return message;
+  return typeof message === "string" ? message : null;
 }
