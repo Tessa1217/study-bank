@@ -13,6 +13,6 @@ export type Size = "sm" | "md" | "lg" | "xl";
 
 export type Width = "auto" | "full";
 
-export type Shape = "circle" | "rounded" | "square";
+export type Shape = "default" | "pill";
 
 export type Feedback = "info" | "warning" | "error" | "success";
