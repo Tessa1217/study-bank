@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
 import { useSignOutMutation } from "@/hooks/queries/useAuthQuery";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import clsx from "clsx";
 import Image from "@/components/ui/image";
 import Button from "@/components/button/button";
@@ -10,6 +11,9 @@ import Divider from "@/components/ui/divider";
 
 const UserSetting = () => {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+  const dropdownMenu = useRef<HTMLDivElement>(null);
+  useClickOutside(dropdownMenu, () => setOpenDropdown(false));
+
   const profile = useAuthStore((state) => state.profile);
   const { mutate: signOut } = useSignOutMutation();
 
@@ -23,7 +27,7 @@ const UserSetting = () => {
   }, []);
 
   return (
-    <div className="relative group">
+    <div className="relative group" ref={dropdownMenu}>
       <Button
         id="dropdown-opener"
         color="secondary"
