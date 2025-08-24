@@ -12,7 +12,9 @@ export interface StudySetWithCard extends Partial<StudySetRow> {
 
 export const studySetRepository = {
   findAll: (): SbResult<Partial<StudySetRow>[]> => {
-    const builder = supabase.from("study_set").select("id, title, description");
+    const builder = supabase
+      .from("study_set")
+      .select("id, title, description, is_public");
     return sbExecMany(builder);
   },
 
@@ -23,6 +25,7 @@ export const studySetRepository = {
         `id,
                title,
                description,
+               is_public,
                study_card (
                             id,
                             word,                                  
