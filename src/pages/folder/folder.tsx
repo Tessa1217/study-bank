@@ -1,6 +1,6 @@
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { useFolderQuery } from "@/hooks/queries/useFolderQuery";
-import { BookA } from "lucide-react";
+import { BookA, Plus } from "lucide-react";
 import Button from "@/components/button/button";
 
 export default function FolderPage() {
@@ -32,20 +32,29 @@ export default function FolderPage() {
 
   return (
     <div className="page">
-      <h1 className="page-header">{name}</h1>
-      <div className="text-gray-700 whitespace-pre-wrap">
-        {description || "설명이 없습니다."}
-      </div>
-      <div className="flex p-10 flex-col gap-3 justify-center items-center bg-white m-1">
-        <div className="flex">
-          <BookA size={30} />
-          <BookA size={30} />
-          <BookA size={30} />
+      <div className="page-content">
+        <div className="page-header">
+          <div className="page-title-container">
+            <h1 className="page-title">{name}</h1>
+            {description && <p className="page-sub-title">{description}</p>}
+          </div>
         </div>
-        <p>학습 자료를 추가해서 폴더를 완성해보세요.</p>
-        <NavLink className="btn-primary" to={"/set/new"}>
-          학습 자료 추가하기
-        </NavLink>
+        <div className="flex p-10 flex-col gap-3 justify-center items-center bg-white m-1">
+          <div className="flex">
+            <BookA size={30} />
+            <BookA size={30} />
+            <BookA size={30} />
+          </div>
+          <p>학습 자료를 추가해서 폴더를 완성해보세요.</p>
+          <Button
+            color="primary"
+            className="flex gap-3"
+            onClick={() => navigate("/set/new")}
+          >
+            학습 자료 추가하기
+            <Plus />
+          </Button>
+        </div>
       </div>
     </div>
   );
