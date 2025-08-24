@@ -1,12 +1,4 @@
-import type { StudyCardRow } from "@/api/repository/studyCard.repository";
 import { studySetRepository } from "@/api/repository/studySet.repository";
-import type { Row } from "@/api/shared/types";
-
-export type StudySetRow = Row<"study_set">;
-
-export interface StudySetWithCard extends Partial<StudySetRow> {
-  study_card: Partial<StudyCardRow>[];
-}
 
 export async function getStudySets() {
   return studySetRepository.findAll();
