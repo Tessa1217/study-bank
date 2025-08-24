@@ -27,7 +27,7 @@ export function getBadgeClasses({
     blue: "bg-blue-100 text-blue-800  dark:bg-blue-900 dark:text-blue-300",
     purple:
       "bg-purple-100 text-purple-800  dark:bg-purple-900 dark:text-purple-300",
-    primary: "bg-brand-100 text-brand-800 dark:bg-brand-900 dark:bg-brand-300",
+    primary: "bg-brand-100 text-white dark:bg-brand-900 dark:text-white",
     secondary: "bg-gray-100 text-gray-800  dark:bg-gray-700 dark:text-gray-300",
   };
 
