@@ -17,10 +17,11 @@ import {
   hasErrors,
 } from "@/components/set/state/card.validation";
 
-type StudySet = {
+export type StudySet = {
   id?: string;
   title: string;
   description?: string;
+  isPublic: boolean;
 };
 
 type FirstError =
@@ -40,6 +41,7 @@ type EditorCtx = {
     reorder: (cards: CardState["cards"]) => void;
     setActive: (id?: string) => void;
     setMeta: (meta: StudySet) => void;
+    toggleIsPublic: () => void;
     validateNow: () => {
       ok: boolean;
       firstError?: FirstError;
@@ -47,7 +49,7 @@ type EditorCtx = {
     };
     clearErrors: () => void;
   };
-  meta: { title: string; description?: string };
+  meta: StudySet;
   errors: SetErrors;
   isValid: boolean;
   submitAttempted: boolean;
@@ -61,7 +63,11 @@ interface CardEditorProiderProps {
 
 export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
   const [state, dispatch] = useReducer(cardReducer, initialCardState);
-  const [meta, setMeta] = useState<StudySet>({ title: "", description: "" });
+  const [meta, setMeta] = useState<StudySet>({
+    title: "",
+    description: "",
+    isPublic: false,
+  });
   const [errors, setErrors] = useState<SetErrors>({ cards: {} });
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
@@ -92,10 +98,9 @@ export const CardEditorProvider = ({ children }: CardEditorProiderProps) => {
       reorder: (cards: CardState["cards"]) =>
         dispatch({ type: "REORDER", payload: cards }),
       setActive: (id?: string) => dispatch({ type: "SET_ACTIVE", id }),
-
-      setMeta: (m: { id?: string; title: string; description?: string }) =>
-        setMeta(m),
-
+      setMeta: (m: StudySet) => setMeta(m),
+      toggleIsPublic: () =>
+        setMeta((prevMeta) => ({ ...prevMeta, isPublic: !prevMeta.isPublic })),
       validateNow: () => {
         const next = validateSet({ ...meta, cards: state.cards });
         setErrors(next);

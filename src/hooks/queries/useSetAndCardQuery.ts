@@ -38,8 +38,6 @@ export function useSaveSetWithCardsMutation() {
       );
     },
     onSuccess: (result) => {
-      console.log("global");
-      console.log(result);
       const set = result?.data?.set;
       const id = set?.id as string | undefined;
       // 상세 캐시 업데이트
