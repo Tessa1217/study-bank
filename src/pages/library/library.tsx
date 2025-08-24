@@ -1,16 +1,15 @@
 import { useMemo } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFolderListQuery } from "@/hooks/queries/useFolderQuery";
 import { useSetListQuery } from "@/hooks/queries/useSetQuery";
 import type { StudyFolderSummary, StudySetSummary } from "@/api/mapper/types";
-import {
-  ArrowBigRight,
-  ArrowRight,
-  FolderIcon,
-  LibraryIcon,
-  Plus,
-} from "lucide-react";
+import { ArrowRight, FolderIcon, LibraryIcon, Plus } from "lucide-react";
+import PageWrapper from "@/components/layout/page-wrapper";
+import PageHeader from "@/components/layout/page-header";
+import PageButtonContainer from "@/components/layout/page-button-container";
+import Button from "@/components/button/button";
 const Library = () => {
+  const navigate = useNavigate();
   const {
     data: studyFolderList = [],
     isLoading: studyFolderLoading,
@@ -33,112 +32,128 @@ const Library = () => {
   const loading = studyFolderLoading || studySetLoading;
 
   return (
-    <div className="page">
-      <div className="page-content">
-        {/* Header */}
-        <div className="page-header">
-          <div className="page-title-container">
-            <h1 className="page-title">내 라이브러리</h1>
-            <p className="page-sub-title">
-              나만의 학습 자료들을 만들고 한눈에 확인해보세요.
-            </p>
-          </div>
-          <div className="page-btn-container">
-            <NavLink
-              to="/folder/new"
-              className="btn-outline flex items-center gap-1 h-10"
-            >
-              <Plus size={18} />새 폴더
-            </NavLink>
-            <NavLink
-              to="/set/new"
-              className="btn-primary flex items-center gap-1 h-10"
-            >
-              <Plus size={18} />새 학습 세트
-            </NavLink>
-          </div>
-        </div>
-        {/* Folders */}
-        <Section
-          title="내 폴더"
-          action={
-            <NavLink to="/folder/new" className="btn-outline h-9">
-              폴더 만들기
-            </NavLink>
-          }
-        >
-          {loading ? (
-            <Grid>
-              {Array.from({ length: 3 }).map((_, idx) => (
-                <FolderSkeleton key={`folder_skelecton_${idx}`} />
-              ))}
-            </Grid>
-          ) : hasFolders ? (
-            <Grid>
-              {studyFolderList.map(({ id, name, description }) => (
-                <FolderCard
-                  key={id}
-                  id={id}
-                  name={name}
-                  description={description}
-                />
-              ))}
-            </Grid>
-          ) : (
-            <Empty
-              icon={<FolderIcon />}
-              title="나만의 폴더를 생성해보세요"
-              desc="폴더는 여러 학습 세트를 묶어 한 번에 볼 수 있습니다. 아래 버튼을 눌러 폴더를 생성해보세요."
-              cta={
-                <NavLink to="/folder/new" className="btn-outline h-10">
-                  폴더 만들기
-                </NavLink>
-              }
-            />
-          )}
-        </Section>
+    <PageWrapper>
+      <PageHeader
+        title="내 라이브러리"
+        subTitle="나만의 학습 자료들을 만들고 한눈에 확인해보세요."
+      >
+        <PageButtonContainer>
+          <Button
+            variant="outline"
+            color="secondary"
+            className="flex items-center gap-2"
+            onClick={() => navigate("/folders/new")}
+          >
+            <Plus />새 폴더
+          </Button>
+          <Button
+            color="primary"
+            className="flex items-center gap-2"
+            onClick={() => navigate("/sets/new")}
+          >
+            <Plus />새 학습 세트
+          </Button>
+        </PageButtonContainer>
+      </PageHeader>
+      {/* Folders */}
+      <Section
+        title="내 폴더"
+        action={
+          <Button
+            variant="outline"
+            color="secondary"
+            className="flex gap-2"
+            onClick={() => navigate("/folders/new")}
+          >
+            폴더 만들러 가기 <ArrowRight />
+          </Button>
+        }
+      >
+        {loading ? (
+          <Grid>
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <FolderSkeleton key={`folder_skelecton_${idx}`} />
+            ))}
+          </Grid>
+        ) : hasFolders ? (
+          <Grid>
+            {studyFolderList.map(({ id, name, description }) => (
+              <FolderCard
+                key={id}
+                id={id}
+                name={name}
+                description={description}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <Empty
+            icon={<FolderIcon />}
+            title="나만의 폴더를 생성해보세요"
+            desc="폴더는 여러 학습 세트를 묶어 한 번에 볼 수 있습니다. 아래 버튼을 눌러 폴더를 생성해보세요."
+            cta={
+              <Button
+                variant="outline"
+                color="secondary"
+                className="flex gap-2"
+                onClick={() => navigate("/folders/new")}
+              >
+                폴더 만들러 가기 <ArrowRight />
+              </Button>
+            }
+          />
+        )}
+      </Section>
 
-        {/* Sets */}
-        <Section
-          title="내 학습 세트"
-          action={
-            <NavLink to="/set/new" className="btn-primary h-9">
-              학습 세트 만들기
-            </NavLink>
-          }
-        >
-          {loading ? (
-            <Grid>
-              {Array.from({ length: 4 }).map((_, idx) => (
-                <SetSkeleton key={`set_skeleton_${idx}`} />
-              ))}
-            </Grid>
-          ) : hasSets ? (
-            <Grid>
-              {studySetList.map(({ id, title, description }) => (
-                <SetCard
-                  key={id}
-                  id={id}
-                  title={title}
-                  description={description ?? ""}
-                />
-              ))}
-            </Grid>
-          ) : (
-            <Empty
-              icon={<LibraryIcon />}
-              title="나만의 학습 세트를 생성해보세요"
-              desc="학습 세트는 용어와 뜻을 하나의 세트로 묶어 학습할 수 있는 단위입니다."
-              cta={
-                <NavLink to="/set/new" className="btn-primary h-10">
-                  학습 세트 만들기
-                </NavLink>
-              }
-            />
-          )}
-        </Section>
-      </div>
-    </div>
+      {/* Sets */}
+      <Section
+        title="내 학습 세트"
+        action={
+          <Button
+            color="primary"
+            className="flex gap-2"
+            onClick={() => navigate("/folders/new")}
+          >
+            학습 세트 만들러 가기 <ArrowRight />
+          </Button>
+        }
+      >
+        {loading ? (
+          <Grid>
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <SetSkeleton key={`set_skeleton_${idx}`} />
+            ))}
+          </Grid>
+        ) : hasSets ? (
+          <Grid>
+            {studySetList.map(({ id, title, description, isPublic }) => (
+              <SetCard
+                key={id}
+                id={id}
+                title={title}
+                isPublic={isPublic}
+                description={description ?? ""}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <Empty
+            icon={<LibraryIcon />}
+            title="나만의 학습 세트를 생성해보세요"
+            desc="학습 세트는 용어와 뜻을 하나의 세트로 묶어 학습할 수 있는 단위입니다."
+            cta={
+              <Button
+                color="primary"
+                className="flex gap-2"
+                onClick={() => navigate("/folders/new")}
+              >
+                학습 세트 만들러 가기 <ArrowRight />
+              </Button>
+            }
+          />
+        )}
+      </Section>
+    </PageWrapper>
   );
 };
 
@@ -210,7 +225,7 @@ function Empty({
 function FolderCard({ id, name, description }: StudyFolderSummary) {
   return (
     <Link
-      to={`/folder/${id}`}
+      to={`/folders/${id}`}
       className="card group flex flex-col gap-2 p-4 hover:shadow-md"
     >
       <div className="flex items-center gap-2">

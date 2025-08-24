@@ -10,6 +10,9 @@ import { useProfileMutation } from "@/hooks/queries/useProfileQuery";
 import { useFileUploder } from "@/hooks/useFileUploder";
 import { ProfileSchema } from "@/validation/schema";
 import type { UserProfile } from "@/api/mapper/types";
+import PageWrapper from "@/components/layout/page-wrapper";
+import PageHeader from "@/components/layout/page-header";
+import PageButtonContainer from "@/components/layout/page-button-container";
 
 const UserSetting = () => {
   const navigate = useNavigate();
@@ -79,78 +82,73 @@ const UserSetting = () => {
   };
 
   return (
-    <div className="page">
-      <div className="page-content">
-        <div className="page-header">
-          <div className="page-title-container">
-            <h2 className="page-title">사용자 설정</h2>
-            <p className="page-sub-title">
-              나만의 계정 프로필과 관심사를 관리해보세요.
-            </p>
-          </div>
-        </div>
-        <section className="card p-6 md:p-8 lg:p-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Avatar */}
-            <div className="md:col-span-6 lg:col-span-5">
-              <Label htmlFor="avatar">사용자 아바타</Label>
-              <div className="mt-3 flex items-start gap-4">
-                <Image
-                  src={preview ?? undefined}
-                  path={
-                    !preview ? userProfile.avatar_url ?? undefined : undefined
-                  }
-                  fallbackSrc="https://placehold.co/96x96?text=Avatar"
-                  alt="Avatar preview"
-                  className="h-24 w-24 rounded-2xl object-cover border"
+    <PageWrapper>
+      <PageHeader
+        title="사용자 설정"
+        subTitle="나만의 계정 프로필과 관심사를 관리해보세요."
+      />
+      <section className="card p-6 md:p-8 lg:p-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Avatar */}
+          <div className="md:col-span-6 lg:col-span-5">
+            <Label htmlFor="avatar">사용자 아바타</Label>
+            <div className="mt-3 flex items-start gap-4">
+              <Image
+                src={preview ?? undefined}
+                path={
+                  !preview ? userProfile.avatar_url ?? undefined : undefined
+                }
+                fallbackSrc="https://placehold.co/96x96?text=Avatar"
+                alt="Avatar preview"
+                className="h-24 w-24 rounded-2xl object-cover border"
+              />
+              <div className="flex flex-col gap-2">
+                <FileInput
+                  className="hidden"
+                  ref={fileRef}
+                  onSelected={onFileChange}
                 />
-                <div className="flex flex-col gap-2">
-                  <FileInput
-                    className="hidden"
-                    ref={fileRef}
-                    onSelected={onFileChange}
-                  />
-                  <Button type="button" onClick={onPickFile}>
-                    이미지 선택
+                <Button type="button" onClick={onPickFile}>
+                  이미지 선택
+                </Button>
+                {(preview || userProfile?.avatar_url) && (
+                  <Button
+                    type="button"
+                    className="btn-outline"
+                    onClick={onRemoveFile}
+                    disabled={isUpdating || isUploading}
+                  >
+                    제거
                   </Button>
-                  {(preview || userProfile?.avatar_url) && (
-                    <Button
-                      type="button"
-                      className="btn-outline"
-                      onClick={onRemoveFile}
-                      disabled={isUpdating || isUploading}
-                    >
-                      제거
-                    </Button>
-                  )}
-                  <p className="explain-text">JPG/PNG, 2MB 이하 권장</p>
-                </div>
+                )}
+                <p className="explain-text">JPG/PNG, 2MB 이하 권장</p>
               </div>
             </div>
-            {/* Fields */}
-            <div className="md:col-span-6 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="relative">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="user_name">
-                    사용자 이름<span className="ml-1 text-rose-600">*</span>
-                  </Label>
-                  <span className="explain-text">{nameCount}</span>
-                </div>
-                <Input
-                  id="user_name"
-                  inputWidth="full"
-                  className="input mt-2"
-                  placeholder="이름을 입력하세요"
-                  value={userProfile?.user_name}
-                  onChange={onNameChange}
-                  maxLength={60}
-                />
-                <p className="explain-text mt-1">
-                  프로필에 표시될 이름입니다. 최대 60자 권장.
-                </p>
+          </div>
+          {/* Fields */}
+          <div className="md:col-span-6 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="user_name">
+                  사용자 이름<span className="ml-1 text-rose-600">*</span>
+                </Label>
+                <span className="explain-text">{nameCount}</span>
               </div>
+              <Input
+                id="user_name"
+                inputWidth="full"
+                className="input mt-2"
+                placeholder="이름을 입력하세요"
+                value={userProfile?.user_name}
+                onChange={onNameChange}
+                maxLength={60}
+              />
+              <p className="explain-text mt-1">
+                프로필에 표시될 이름입니다. 최대 60자 권장.
+              </p>
+            </div>
 
-              {/* <div>
+            {/* <div>
               <Label htmlFor="interests">관심사</Label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {interests.map((t) => (
@@ -180,27 +178,26 @@ const UserSetting = () => {
                 예: JavaScript, UI/UX, Kafka
               </p>
             </div> */}
-            </div>
           </div>
-        </section>
-        <div className="btn-container">
-          <Button
-            color="secondary"
-            onClick={onCancel}
-            disabled={isUpdating || isUploading}
-          >
-            취소
-          </Button>
-          <Button
-            color="primary"
-            onClick={onSave}
-            disabled={isUpdating || isUploading}
-          >
-            저장
-          </Button>
         </div>
-      </div>
-    </div>
+      </section>
+      <PageButtonContainer>
+        <Button
+          color="secondary"
+          onClick={onCancel}
+          disabled={isUpdating || isUploading}
+        >
+          취소
+        </Button>
+        <Button
+          color="primary"
+          onClick={onSave}
+          disabled={isUpdating || isUploading}
+        >
+          저장
+        </Button>
+      </PageButtonContainer>
+    </PageWrapper>
   );
 };
 

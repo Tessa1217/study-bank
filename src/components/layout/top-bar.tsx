@@ -76,7 +76,7 @@ export default function Topbar() {
           <nav className="hidden md:flex items-center gap-6">
             <TopLink to="/">홈</TopLink>
             <TopLink to="/library">내 라이브러리</TopLink>
-            <TopLink to="/folder/new">만들기</TopLink>
+            <TopLink to="/folders/new">만들기</TopLink>
           </nav>
         </div>
         <div className="flex items-center gap-2 md:gap-4 flex-1 justify-end">
@@ -143,7 +143,7 @@ export default function Topbar() {
             내 라이브러리
           </NavLink>
           <NavLink
-            to="/folder/new"
+            to="/folders/new"
             onClick={() => setOpen(false)}
             className="px-3 py-2 rounded-lg hover:bg-slate-100 text-sm font-medium"
           >

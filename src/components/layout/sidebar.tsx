@@ -71,13 +71,13 @@ const Sidebar = () => {
         </SideLink>
       </SideSection>
       <SideSection menuName="folder-menu" menuTitle="내 폴더">
-        <SideLink to="/folder/new" icon={<FolderOpen size={18} />}>
+        <SideLink to="/folders/new" icon={<FolderOpen size={18} />}>
           폴더 생성
         </SideLink>
         {userFolders.map((folder) => (
           <SideLink
             key={folder.id}
-            to={`/folder/${folder.id}`}
+            to={`/folders/${folder.id}`}
             icon={<Folder size={18} />}
           >
             {folder.name}

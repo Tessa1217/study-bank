@@ -11,6 +11,9 @@ import { useSetEditorSave } from "@/hooks/useSetEditorSave";
 import Button from "@/components/button/button";
 import Toggle from "@/components/input/toggle";
 import SetData from "@/pages/set/set-data";
+import PageWrapper from "@/components/layout/page-wrapper";
+import PageHeader from "@/components/layout/page-header";
+import PageButtonContainer from "@/components/layout/page-button-container";
 
 const SetPage = () => {
   return (
@@ -44,79 +47,76 @@ const SetNew = () => {
   const { onSave } = useSetEditorSave(actions, meta, state, titleRef);
 
   return (
-    <div className="page">
-      <div className="page-content">
-        <div className="page-header">
-          <div className="page-title-container">
-            <h1 className="page-title">학습 세트 생성</h1>
-            <p className="page-sub-title">나만의 학습 세트를 생성해보세요.</p>
-          </div>
-          <div className="page-btn-container">
-            <Button color="primary" onClick={onSave}>
-              저장
-            </Button>
-            <SetData></SetData>
-          </div>
+    <PageWrapper>
+      <PageHeader
+        title="학습 세트 생성"
+        subTitle="나만의 학습 세트를 생성해보세요."
+      >
+        <PageButtonContainer>
+          <Button color="primary" onClick={onSave}>
+            저장
+          </Button>
+          <SetData></SetData>
+        </PageButtonContainer>
+      </PageHeader>
+      <section className="card grid gap-3">
+        <div className="grid gap-1">
+          <label className="label">세트명 *</label>
+          <input
+            placeholder="예: HTML/CSS 기본"
+            ref={titleRef}
+            className={clsx(
+              "input",
+              errors.set?.title?.length ? "border-red-500 ring-red-500" : ""
+            )}
+            value={meta.title}
+            onChange={(e) =>
+              actions.setMeta({ ...meta, title: e.target.value })
+            }
+          />
+          {submitAttempted &&
+            errors.set?.title?.map((m) => (
+              <p key={m} className="error-text">
+                {m}
+              </p>
+            ))}
         </div>
-        <header className="card grid gap-3">
-          <div className="grid gap-1">
-            <label className="label">세트명 *</label>
-            <input
-              placeholder="예: HTML/CSS 기본"
-              ref={titleRef}
-              className={clsx(
-                "input",
-                errors.set?.title?.length ? "border-red-500 ring-red-500" : ""
-              )}
-              value={meta.title}
-              onChange={(e) =>
-                actions.setMeta({ ...meta, title: e.target.value })
-              }
-            />
-            {submitAttempted &&
-              errors.set?.title?.map((m) => (
-                <p key={m} className="error-text">
-                  {m}
-                </p>
-              ))}
-          </div>
-          <div className="grid gap-1">
-            <label className="label">설명</label>
-            <textarea
-              className="input min-h-20"
-              placeholder="세트 설명"
-              value={meta.description}
-              onChange={(e) =>
-                actions.setMeta({ ...meta, description: e.target.value })
-              }
-            />
-            {submitAttempted &&
-              errors.set?.description?.map((m) => (
-                <p key={m} className="error-text">
-                  {m}
-                </p>
-              ))}
-          </div>
-          <div className="grid gap-1">
-            <Toggle
-              isToggled={meta.isPublic}
-              onToggle={() => actions.toggleIsPublic()}
-              name="공개 여부"
-            />
-          </div>
-          {setId && (
-            <div className="page-btn-container">
-              <div className="ml-auto flex gap-2">
-                <Button variant="outline">학습</Button>
-                <Button variant="outline">학습</Button>
-                <Button color="primary">학습</Button>
-              </div>
+        <div className="grid gap-1">
+          <label className="label">설명</label>
+          <textarea
+            className="input min-h-20"
+            placeholder="세트 설명"
+            value={meta.description}
+            onChange={(e) =>
+              actions.setMeta({ ...meta, description: e.target.value })
+            }
+          />
+          {submitAttempted &&
+            errors.set?.description?.map((m) => (
+              <p key={m} className="error-text">
+                {m}
+              </p>
+            ))}
+        </div>
+        <div className="grid gap-1">
+          <Toggle
+            isToggled={meta.isPublic}
+            onToggle={() => actions.toggleIsPublic()}
+            name="공개 여부"
+          />
+        </div>
+        {setId && (
+          <div className="page-btn-container">
+            <div className="ml-auto flex gap-2">
+              <Button variant="outline">학습</Button>
+              <Button variant="outline">학습</Button>
+              <Button color="primary">학습</Button>
             </div>
-          )}
-        </header>
-        <CardEditor />
-      </div>
-    </div>
+          </div>
+        )}
+      </section>
+      <CardEditor />
+    </PageWrapper>
   );
 };
 
