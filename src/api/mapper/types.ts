@@ -56,7 +56,7 @@ export interface StudySetDetail extends StudySetSummary {
 }
 
 export type StudyFolderSummary = {
-  id: string;
+  id?: string;
   name: string;
   description?: string | null;
 };
