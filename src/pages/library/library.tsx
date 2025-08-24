@@ -3,11 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFolderListQuery } from "@/hooks/queries/useFolderQuery";
 import { useSetListQuery } from "@/hooks/queries/useSetQuery";
 import type { StudyFolderSummary, StudySetSummary } from "@/api/mapper/types";
-import { ArrowRight, FolderIcon, LibraryIcon, Plus } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenText,
+  CardSimIcon,
+  FolderIcon,
+  IdCard,
+  IdCardIcon,
+  LibraryIcon,
+  Plus,
+} from "lucide-react";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
 import PageButtonContainer from "@/components/layout/page-button-container";
 import Button from "@/components/button/button";
+import Badge from "@/components/ui/badge";
 const Library = () => {
   const navigate = useNavigate();
   const {
@@ -112,7 +122,7 @@ const Library = () => {
           <Button
             color="primary"
             className="flex gap-2"
-            onClick={() => navigate("/folders/new")}
+            onClick={() => navigate("/sets/new")}
           >
             학습 세트 만들러 가기 <ArrowRight />
           </Button>
@@ -145,7 +155,7 @@ const Library = () => {
               <Button
                 color="primary"
                 className="flex gap-2"
-                onClick={() => navigate("/folders/new")}
+                onClick={() => navigate("/sets/new")}
               >
                 학습 세트 만들러 가기 <ArrowRight />
               </Button>
@@ -229,7 +239,7 @@ function FolderCard({ id, name, description }: StudyFolderSummary) {
       className="card group flex flex-col gap-2 p-4 hover:shadow-md"
     >
       <div className="flex items-center gap-2">
-        <FolderIcon className="opacity-80" size={18} />
+        <FolderIcon className="opacity-80" fill="#FDDA0D" strokeWidth={0} />
         <h4 className="font-semibold truncate">{name}</h4>
       </div>
       <p className="text-xs text-slate-600">{description}</p>
@@ -237,13 +247,22 @@ function FolderCard({ id, name, description }: StudyFolderSummary) {
   );
 }
 
-function SetCard({ id, title, description }: StudySetSummary) {
+function SetCard({ id, title, description, isPublic }: StudySetSummary) {
   return (
     <Link
-      to={`/set/${id}`}
+      to={`/sets/${id}`}
       className="card group flex flex-col gap-3 p-4 hover:shadow-md"
     >
-      <h4 className="font-semibold truncate">{title}</h4>
+      <div className="flex justify-between">
+        <h4 className="font-semibold truncate flex gap-2">
+          <BookOpenText color="gray" />
+          {title}
+        </h4>
+        <Badge
+          color={isPublic ? "green" : "secondary"}
+          title={isPublic ? "공개" : "비공개"}
+        />
+      </div>
       <p className="text-sm text-slate-700 line-clamp-2 break-words">
         {description || "설명이 없습니다."}
       </p>
