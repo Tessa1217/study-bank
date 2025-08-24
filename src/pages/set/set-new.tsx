@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { useSetWithCardsQuery } from "@/hooks/queries/useSetAndCardQuery";
 import { useSetEditorSave } from "@/hooks/useSetEditorSave";
 import Button from "@/components/button/button";
+import Toggle from "@/components/input/toggle";
 import SetData from "@/pages/set/set-data";
 
 const SetPage = () => {
@@ -22,7 +23,6 @@ const SetPage = () => {
 const SetNew = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const { state, meta, submitAttempted, actions, errors } = useCardEditor();
-
   const { setId } = useParams();
 
   const { data: editSet } = useSetWithCardsQuery(setId);
@@ -35,6 +35,7 @@ const SetNew = () => {
         id: meta.id,
         title: meta.title,
         description: meta.description ?? undefined,
+        isPublic: meta.isPublic,
       });
       init(cards);
     }
@@ -95,6 +96,13 @@ const SetNew = () => {
                   {m}
                 </p>
               ))}
+          </div>
+          <div className="grid gap-1">
+            <Toggle
+              isToggled={meta.isPublic}
+              onToggle={() => actions.toggleIsPublic()}
+              name="공개 여부"
+            />
           </div>
           {setId && (
             <div className="page-btn-container">
