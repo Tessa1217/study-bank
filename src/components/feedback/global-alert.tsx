@@ -10,8 +10,8 @@ export default function GlobalAlert() {
       message={message}
       confirmLabel="확인"
       secondaryLabel={actionLabel}
-      onSecondary={onAction}
-      onConfirm={closeAlert}
+      onSecondary={closeAlert}
+      onConfirm={onAction}
       onClose={closeAlert}
     />
   );
