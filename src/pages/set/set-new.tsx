@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAlert } from "@/hooks/useAlert";
 import CardEditor from "@/components/set/card-editor";
 import {
   CardEditorProvider,
@@ -44,26 +45,53 @@ const SetNew = () => {
 
   const { mutate: saveSetWithCards } = useSaveSetWithCardsMutation();
 
-  const onSave = async () => {
-    const { ok, firstError } = actions.validateNow();
-    if (!ok) {
-      if (firstError?.scope === "set") {
-        if (firstError.field === "title") titleRef.current?.focus();
-      } else if (firstError?.scope === "card" && firstError.cardId) {
-        actions.setActive(firstError.cardId);
-        requestAnimationFrame(() => {
-          document
-            .querySelector<HTMLElement>(
-              `[data-card-id="\${firstError.cardId}"]`
-            )
-            ?.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
+  const { showConfirm, showSuccessAlert } = useAlert();
+
+  const handleSave = async () => {
+    return new Promise((resolve, reject) => {
+      const { ok, firstError } = actions.validateNow();
+      if (!ok) {
+        if (firstError?.scope === "set") {
+          if (firstError.field === "title") titleRef.current?.focus();
+        } else if (firstError?.scope === "card" && firstError.cardId) {
+          actions.setActive(firstError.cardId);
+          requestAnimationFrame(() => {
+            document
+              .querySelector<HTMLElement>(
+                `[data-card-id="\${firstError.cardId}"]`
+              )
+              ?.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+        return reject(firstError);
       }
-      return;
-    }
-    saveSetWithCards({ set: meta, cards: state.cards });
-    actions.clearErrors();
+
+      saveSetWithCards(
+        { set: meta, cards: state.cards },
+        {
+          onSuccess: (result) => {
+            console.log("local");
+            actions.clearErrors();
+            resolve(result);
+          },
+        }
+      );
+    });
   };
+
+  const onSave = async () =>
+    showConfirm({
+      messageCode: "COMMON.INFO.CREATE",
+      onAction: async () => {
+        try {
+          console.log("action");
+          await handleSave();
+          showSuccessAlert({ messageCode: "COMMON.SUCCESS.CREATE" });
+        } catch {
+          console.error("error");
+        }
+      },
+    });
 
   return (
     <div className="page">
