@@ -1,10 +1,12 @@
 import Button from "@/components/button/button";
-import { X } from "lucide-react";
+import type { Feedback } from "@/types";
+import { CircleCheckBig, CircleX, Info, TriangleAlert, X } from "lucide-react";
 import { useEffect } from "react";
 
 type AlertProps = {
   open: boolean;
   message: string;
+  alertVariant?: Feedback;
   confirmLabel?: string;
   secondaryLabel?: string;
   onSecondary?: () => void;
@@ -12,9 +14,34 @@ type AlertProps = {
   onClose: () => void;
 };
 
+const AlertIcon = ({ alertVariant }: { alertVariant?: Feedback }) => {
+  if (!alertVariant) return null;
+
+  let iconComponent;
+  switch (alertVariant) {
+    case "info":
+      iconComponent = <Info size={40} />;
+      break;
+    case "error":
+      iconComponent = <CircleX size={40} />;
+      break;
+    case "warning":
+      iconComponent = <TriangleAlert size={40} />;
+      break;
+    case "success":
+      iconComponent = <CircleCheckBig size={40} />;
+      break;
+    default:
+      iconComponent = null;
+      break;
+  }
+
+  return <div className="mb-4 text-gray-400">{iconComponent}</div>;
+};
 export default function Alert({
   open,
   message,
+  alertVariant,
   confirmLabel = "확인",
   secondaryLabel,
   onSecondary,
@@ -56,26 +83,11 @@ export default function Alert({
           className="absolute right-3 top-3 rounded-full p-2 text-gray-400 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300"
           onClick={onClose}
         >
-          <X size={5} />
+          <X size={20} />
         </button>
         {/* Content */}
         <div className="flex flex-col items-center text-center">
-          <div className="mb-4 text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-10 w-10 text-gray-500"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m-9.303 3.376c-.866 1.5.06 3.377 1.868 3.377h14.48c1.808 0 2.734-1.877 1.868-3.377L13.715 4.36a1.875 1.875 0 00-3.431 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-              />
-            </svg>
-          </div>
+          <AlertIcon alertVariant={alertVariant} />
           {/* Message */}
           <p className="mb-6 text-base font-semibold text-gray-800 whitespace-pre-wrap">
             {message}

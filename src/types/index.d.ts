@@ -15,4 +15,4 @@ export type Width = "auto" | "full";
 
 export type Shape = "circle" | "rounded" | "square";
 
-export type Feedback = "info" | "warning" | "error"
+export type Feedback = "info" | "warning" | "error" | "success";

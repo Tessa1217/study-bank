@@ -1,9 +1,11 @@
 import { useAlertStore } from "@/store/useAlertStore";
+import type { Feedback } from "@/types";
 import { getMessage } from "@/utils/message";
 
 type Alert = {
   messageCode: string;
   actionLabel?: string;
+  alertVariant?: Feedback;
   onAction?: () => void;
 };
 
@@ -17,22 +19,24 @@ export function useAlert() {
 
   const showConfirm = ({
     messageCode,
+    alertVariant = "info",
     actionLabel = "취소",
     onAction,
   }: Alert) => {
     const message = generateMessage(messageCode);
     if (!message) return;
-    showAlert(message, actionLabel, onAction);
+    showAlert({ message, actionLabel, onAction, alertVariant });
   };
 
   const showSuccessAlert = ({
     messageCode,
+    alertVariant = "success",
     actionLabel = "",
     onAction,
   }: Alert) => {
     const message = generateMessage(messageCode);
     if (!message) return;
-    showAlert(message, actionLabel, onAction);
+    showAlert({ message, actionLabel, onAction, alertVariant });
   };
 
   return {
