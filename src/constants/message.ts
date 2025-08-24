@@ -5,6 +5,7 @@ export const MESSAGE_CONSTANT = {
       UPDATE: "수정하시겠습니까?",
       DELETE: "삭제하시겠습니까?",
       SAVE: "저장하시겠습니까?",
+      CANCEL: "취소하시겠습니까?",
     },
     SUCCESS: {
       CREATE: "등록되었습니다.",
