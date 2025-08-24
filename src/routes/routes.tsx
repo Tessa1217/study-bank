@@ -12,7 +12,8 @@ const SignUp = lazy(() => import("@/pages/auth/sign-up"));
 const Profile = lazy(() => import("@/pages/profile/user-profile"));
 const Main = lazy(() => import("@/pages/studyroom/main"));
 const Folder = lazy(() => import("@/pages/folder/folder"));
-const FolderNew = lazy(() => import("@/pages/folder/folder-new"));
+const FolderCreate = lazy(() => import("@/pages/folder/folder-create"));
+const FolderUpdate = lazy(() => import("@/pages/folder/folder-update"));
 const SetNew = lazy(() => import("@/pages/set/set-new"));
 const Library = lazy(() => import("@/pages/library/library"));
 const Learn = lazy(() => import("@/pages/studyroom/learn"));
@@ -33,20 +34,24 @@ const router = createBrowserRouter([
             element: <Profile />,
           },
           {
-            path: "folder",
+            path: "folders",
             children: [
               {
                 path: "new",
-                element: <FolderNew />,
+                element: <FolderCreate />,
               },
               {
                 path: ":folderId",
                 element: <Folder />,
               },
+              {
+                path: ":folderId/edit",
+                element: <FolderUpdate />,
+              },
             ],
           },
           {
-            path: "set",
+            path: "sets",
             children: [
               {
                 path: "new",
