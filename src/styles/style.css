@@ -38,7 +38,7 @@
   }
 
   .page-btn-container {
-    @apply flex flex-wrap items-center gap-2;
+    @apply flex flex-wrap items-center justify-end gap-2;
   }
 
   .card {
