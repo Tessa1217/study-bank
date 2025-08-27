@@ -1,11 +1,13 @@
 import type {
   StudySetRow,
   StudySetWithCard,
+  StudySetWithRelations,
 } from "@/api/repository/studySet.repository";
 import type {
   StudyCardDraft,
   StudyFolderSummary,
   StudySetDetail,
+  StudySetItem,
   StudySetSummary,
   UserProfile,
 } from "@/api/mapper/types";
@@ -82,6 +84,15 @@ export function toSetSummary(row: Partial<StudySetRow>): StudySetSummary {
     title: row.title!,
     description: row.description ?? null,
     isPublic: row.is_public!,
+  };
+}
+
+export function toSetItem(row: StudySetWithRelations): StudySetItem {
+  return {
+    id: row.id!,
+    title: row.title!,
+    userName: row.user_name,
+    cardCnt: row.card_count,
   };
 }
 

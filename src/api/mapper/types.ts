@@ -55,6 +55,13 @@ export interface StudySetDetail extends StudySetSummary {
   cards: StudyCardDraft[];
 }
 
+export type StudySetItem = {
+  id: string;
+  title: string;
+  userName: string;
+  cardCnt: number;
+};
+
 export type StudyFolderSummary = {
   id?: string;
   name: string;
