@@ -119,7 +119,7 @@ export default function Dialog({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className="relative w-full sm:w-auto h-screen grid place-items-center animate-panel-in"
+        className="relative w-auto md:w-full h-screen grid place-items-center animate-panel-in"
       >
         {children({ close: onClose, panelRef })}
       </div>
