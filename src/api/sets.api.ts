@@ -7,7 +7,3 @@ export async function getStudySets() {
 export async function getStudySetById(setId: string) {
   return studySetRepository.findById(setId);
 }
-
-export async function getStudySetsPublicOrCreatedByUser(userId: string) {
-  return studySetRepository.findAllPublicOrCreatedByUser(userId);
-}

@@ -1,8 +1,6 @@
 export const setsKeys = {
   all: ["sets"] as const,
   list: () => [...setsKeys.all, "list"] as const,
-  listPublicOrCreatedByUser: (userId: string) =>
-    [...setsKeys.all, "listPublicOrCreatedByUser", userId] as const,
   detail: (id: string) => [...setsKeys.all, "detail", id] as const,
 };
 
@@ -10,6 +8,14 @@ export const foldersKeys = {
   all: ["folders"] as const,
   list: () => [...foldersKeys.all, "list"] as const,
   detail: (id: string) => [...foldersKeys.all, "detail", id] as const,
+};
+
+export const folderSetsKeys = {
+  all: ["folderSets"] as const,
+  list: (folderId: string) =>
+    [...folderSetsKeys.all, "list", folderId] as const,
+  availableList: (folderId: string) =>
+    [...folderSetsKeys.all, "availableList", folderId] as const,
 };
 
 export const setWithCardsKeys = {
