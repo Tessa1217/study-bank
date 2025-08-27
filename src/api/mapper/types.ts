@@ -60,6 +60,7 @@ export type StudySetItem = {
   title: string;
   userName: string;
   cardCnt: number;
+  addedToFolder: boolean;
 };
 
 export type StudyFolderSummary = {

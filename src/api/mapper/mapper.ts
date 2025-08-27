@@ -1,8 +1,12 @@
 import type {
   StudySetRow,
   StudySetWithCard,
-  StudySetWithRelations,
 } from "@/api/repository/studySet.repository";
+import type {
+  StudyFolderSetDelete,
+  StudyFolderSetInsert,
+  StudyFolderSetRelations,
+} from "@/api/repository/studyFolderSet.repository";
 import type {
   StudyCardDraft,
   StudyFolderSummary,
@@ -37,6 +41,26 @@ export function toUserProfile(row: Partial<ProfilesRow>): UserProfile {
     avatar_url: row.avatar_url ?? "",
     interests: row.interests ?? undefined,
     languages: row.languages ?? undefined,
+  };
+}
+
+export function toFolderSetCreateDTO(fs: {
+  folderId: string;
+  setId: string;
+}): StudyFolderSetInsert {
+  return {
+    folder_id: fs.folderId,
+    set_id: fs.setId,
+  };
+}
+
+export function toFolderSetDeleteDTO(fs: {
+  folderId: string;
+  setId: string;
+}): StudyFolderSetDelete {
+  return {
+    folder_id: fs.folderId,
+    set_id: fs.setId,
   };
 }
 
@@ -87,12 +111,13 @@ export function toSetSummary(row: Partial<StudySetRow>): StudySetSummary {
   };
 }
 
-export function toSetItem(row: StudySetWithRelations): StudySetItem {
+export function toSetItem(row: StudyFolderSetRelations): StudySetItem {
   return {
     id: row.id!,
     title: row.title!,
     userName: row.user_name,
     cardCnt: row.card_count,
+    addedToFolder: row.added_to_folder,
   };
 }
 
