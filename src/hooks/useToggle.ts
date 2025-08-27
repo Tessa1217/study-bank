@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
-export function useToggle(initialState = false) {
+
+type UseToggleReturnType = [boolean, (v?: boolean) => void];
+
+export function useToggle(initialState = false): UseToggleReturnType {
   const [state, setState] = useState<boolean>(initialState);
   const toggle = useCallback(() => setState((state) => !state), []);
-  return { state, toggle };
+  return [state, toggle];
 }
