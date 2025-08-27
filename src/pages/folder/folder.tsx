@@ -1,15 +1,23 @@
+import { lazy, Suspense, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFolderQuery } from "@/hooks/queries/useFolderQuery";
+import { useToggle } from "@/hooks/useToggle";
 import { BookA, Plus } from "lucide-react";
 import Button from "@/components/button/button";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
 import PageButtonContainer from "@/components/layout/page-button-container";
 
+const FolderAddNewSetModal = lazy(
+  () => import("@/pages/folder/folder-add-new-set")
+);
+
 export default function FolderPage() {
   const { folderId } = useParams();
   const navigate = useNavigate();
   const { data: folder, isLoading } = useFolderQuery(folderId);
+  const [open, setOpen] = useToggle(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   // 렌더링 분기
   if (isLoading) {
@@ -60,14 +68,24 @@ export default function FolderPage() {
         </div>
         <p>학습 자료를 추가해서 폴더를 완성해보세요.</p>
         <Button
+          ref={buttonRef}
           color="primary"
           variant="outline"
           className="flex gap-3"
-          onClick={() => navigate("/set/new")}
+          onClick={() => setOpen(true)}
         >
           학습 자료 추가하기
           <Plus />
         </Button>
+        {open && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <FolderAddNewSetModal
+              open={open}
+              setOpen={setOpen}
+              buttonRef={buttonRef}
+            />
+          </Suspense>
+        )}
       </div>
     </PageWrapper>
   );
