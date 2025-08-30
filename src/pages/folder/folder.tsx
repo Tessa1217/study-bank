@@ -62,7 +62,7 @@ export default function FolderPage() {
           >
             수정
           </Button>
-          <Button color="primary" onClick={() => navigate("/set/new")}>
+          <Button color="primary" onClick={() => navigate("/sets/new")}>
             학습 세트 만들기
           </Button>
           {setAddedToFolder.length > 0 && (
