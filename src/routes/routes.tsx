@@ -17,6 +17,7 @@ const FolderUpdate = lazy(() => import("@/pages/folder/folder-update"));
 const SetNew = lazy(() => import("@/pages/set/set-new"));
 const Library = lazy(() => import("@/pages/library/library"));
 const Learn = lazy(() => import("@/pages/studyroom/learn"));
+const MatchCard = lazy(() => import("@/pages/studyroom/match-card"));
 const router = createBrowserRouter([
   {
     element: <GuardedRoute />,
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
               {
                 path: ":setId/learn",
                 element: <Learn />,
+              },
+              {
+                path: ":setId/match",
+                element: <MatchCard />,
               },
             ],
           },
