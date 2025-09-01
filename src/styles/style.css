@@ -97,6 +97,10 @@
   .skeleton-container {
     @apply bg-gray-200 animate-pulse rounded;
   }
+
+  .error-card {
+    animation: tilt-shaking 0.2s infinite;
+  }
 }
 
 @keyframes overlay-in {
@@ -115,6 +119,24 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0eg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 
