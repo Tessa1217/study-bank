@@ -1,6 +1,7 @@
 import CardList from "@/components/set/card-list";
 import { useCardEditor } from "@/components/set/card-editor-context";
 import CardItemEditor from "@/components/set/card-item-editor";
+import Button from "@/components/button/button";
 
 const CardEditor = () => {
   const {
@@ -13,9 +14,9 @@ const CardEditor = () => {
       <aside className="card space-y-2 overflow-auto max-h-[500px]">
         <div className="flex items-center justify-between">
           <h4 className="font-semibold">카드 리스트</h4>
-          <button className="btn-outline" onClick={() => addCard()}>
+          <Button variant="outline" color="secondary" onClick={() => addCard()}>
             + 새 카드
-          </button>
+          </Button>
         </div>
         <CardList />
       </aside>

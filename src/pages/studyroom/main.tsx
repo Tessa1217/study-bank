@@ -2,16 +2,18 @@ import { useParams, Navigate, Link } from "react-router-dom";
 import { useSetWithCardsQuery } from "@/hooks/queries/useSetAndCardQuery";
 import type { StudySetDetail } from "@/api/mapper/types";
 import { Pencil } from "lucide-react";
+import StudyModeButtons from "@/components/studyroom/study-mode-buttons";
 import Button from "@/components/button/button";
 import LearnFlashcard from "@/components/card/learn-flashcards";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
+import LoadingSpinner from "@/components/ui/loading";
 const Main = () => {
   const { setId } = useParams();
   const { data: studySet, isLoading } = useSetWithCardsQuery(setId);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner fullScreen={true} />;
   }
 
   if (!setId) {
@@ -23,6 +25,7 @@ const Main = () => {
   return (
     <PageWrapper>
       <PageHeader title={title} subTitle={description ?? ""} />
+      <StudyModeButtons setId={setId} />
       <section>
         <LearnFlashcard cards={cards} setId={setId} />
       </section>

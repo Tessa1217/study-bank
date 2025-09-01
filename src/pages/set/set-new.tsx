@@ -1,3 +1,4 @@
+import { Textarea } from "@/components/input/textarea";
 import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CardEditor from "@/components/set/card-editor";
@@ -83,8 +84,8 @@ const SetNew = () => {
         </div>
         <div className="grid gap-1">
           <label className="label">설명</label>
-          <textarea
-            className="input min-h-20"
+          <Textarea
+            className="min-h-20"
             placeholder="세트 설명"
             value={meta.description}
             onChange={(e) =>

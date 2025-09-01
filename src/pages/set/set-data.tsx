@@ -39,7 +39,7 @@ const SetData = () => {
           onChange={(e) => setCustomSplitter(e.target.value)}
           onClick={() => setSplitterKey("custom")}
           placeholder="예: |"
-          className="input"
+          
         />
       ),
     },
@@ -59,7 +59,7 @@ const SetData = () => {
           disabled={cardSplitterKey !== "custom"}
           onClick={() => setCardSplitterKey("custom")}
           placeholder="예: ||"
-          className="input"
+          
         />
       ),
     },

@@ -1,4 +1,6 @@
 import type { StudyFolderSummary } from "@/api/mapper/types";
+import { Input } from "@/components/input/input";
+import { Textarea } from "@/components/input/textarea";
 
 const FolderForm = ({
   folder,
@@ -14,8 +16,7 @@ const FolderForm = ({
     <div className="card flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label className="label">폴더명 *</label>
-        <input
-          className="input"
+        <Input
           placeholder="예: TOEIC 단어장"
           value={folder.name}
           onChange={(e) => setFolder({ ...folder, name: e.target.value })}
@@ -23,8 +24,8 @@ const FolderForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <label className="label">설명</label>
-        <textarea
-          className="input min-h-24"
+        <Textarea
+          className="min-h-24"
           placeholder="폴더에 대한 설명"
           value={folder.description ?? ""}
           onChange={(e) =>

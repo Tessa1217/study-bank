@@ -20,7 +20,7 @@ const DefaultLayout = () => {
       {/* Topbar + Main */}
       <div className="grid grid-rows-[auto_1fr]">
         <Topbar />
-        <main className="p-4 lg:p-6 max-w-7xl w-full mx-auto">
+        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

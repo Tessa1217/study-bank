@@ -6,6 +6,7 @@ import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
 import PageButtonContainer from "@/components/layout/page-button-container";
 import FolderForm from "@/components/folder/folder-form";
+import LoadingSpinner from "@/components/ui/loading";
 
 export default function FolderUpdate() {
   const { folderId } = useParams();
@@ -24,7 +25,7 @@ export default function FolderUpdate() {
   } = useFolderEditor(initialFolder);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

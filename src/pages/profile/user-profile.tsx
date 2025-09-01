@@ -114,7 +114,8 @@ const UserSetting = () => {
                 {(preview || userProfile?.avatar_url) && (
                   <Button
                     type="button"
-                    className="btn-outline"
+                    variant="outline"
+                    color="secondary"
                     onClick={onRemoveFile}
                     disabled={isUpdating || isUploading}
                   >
@@ -137,7 +138,7 @@ const UserSetting = () => {
               <Input
                 id="user_name"
                 inputWidth="full"
-                className="input mt-2"
+                className="mt-2"
                 placeholder="이름을 입력하세요"
                 value={userProfile?.user_name}
                 onChange={onNameChange}
@@ -168,7 +169,7 @@ const UserSetting = () => {
               </div>
               <Input
                 id="interests"
-                className="input mt-2"
+                className="mt-2"
                 placeholder="관심사를 입력하고 Enter 또는 , 로 추가"
                 value={tagDraft}
                 onChange={(e: any) => setTagDraft(e.target.value)}

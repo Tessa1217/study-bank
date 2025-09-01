@@ -1,5 +1,7 @@
 import { useCardEditor } from "@/components/set/card-editor-context";
+import Button from "@/components/button/button";
 import { File } from "lucide-react";
+import { Textarea } from "@/components/input/textarea";
 
 const CardItemError = ({ message }: { message: string }) => {
   return (
@@ -33,8 +35,8 @@ const CardItemEditor = () => {
     <section className="card space-y-4">
       <div className="grid gap-2">
         <label className="text-sm font-medium">단어</label>
-        <textarea
-          className="input min-h-[120px]"
+        <Textarea
+          className="min-h-[120px]"
           placeholder="학습할 단어를 입력해주세요."
           value={selected.word}
           onChange={(e) => updateWord(selected.id, e.target.value)}
@@ -46,9 +48,9 @@ const CardItemEditor = () => {
         <label htmlFor="definition" className="text-sm font-medium">
           뜻
         </label>
-        <textarea
+        <Textarea
           id="definition"
-          className="input min-h-[160px]"
+          className="min-h-[160px]"
           placeholder="학습할 단어의 뜻을 입력해주세요."
           value={selected.definition}
           onChange={(e) => updateDefinition(selected.id, e.target.value)}
@@ -57,11 +59,13 @@ const CardItemEditor = () => {
           cardErrors?.definition?.map((m) => <CardItemError message={m} />)}
       </div>
       <div className="flex flex-wrap justify-between items-center gap-2">
-        <button className="btn-outline flex gap-2">
+        <Button variant="outline" color="secondary" className="flex gap-2">
           <File size={20} />
           <span>파일 첨부</span>
-        </button>
-        <button className="btn-outline">미리보기</button>
+        </Button>
+        <Button variant="outline" color="secondary">
+          미리보기
+        </Button>
       </div>
     </section>
   );
