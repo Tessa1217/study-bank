@@ -30,7 +30,7 @@
   }
 
   .page-title {
-    @apply text-[28px] sm:text-[32px] font-bold leading-tight tracking-[-0.015em];
+    @apply text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-tight tracking-[-0.015em];
   }
 
   .page-sub-title {
@@ -38,7 +38,7 @@
   }
 
   .page-btn-container {
-    @apply flex flex-wrap items-center justify-end gap-2;
+    @apply flex flex-wrap items-center justify-end gap-2 w-full sm:w-auto;
   }
 
   .card {
@@ -64,27 +64,8 @@
     @apply bg-brand-900;
   }
 
-  .btn-outline {
-    @apply inline-flex items-center justify-center rounded-xl px-3 py-2
-           text-sm font-medium transition cursor-pointer;
-    @apply border hover:bg-slate-100;
-  }
-
   .label {
     @apply text-sm font-medium;
-  }
-
-  .input {
-    @apply w-full rounded-xl border px-3 py-2
-           focus:outline-none focus:ring-2 focus:ring-indigo-500;
-  }
-
-  .input:disabled {
-    @apply bg-secondary;
-  }
-
-  .input.error {
-    @apply border-red-500 ring-red-500;
   }
 
   .error-text {
