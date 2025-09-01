@@ -16,7 +16,7 @@ export default function StudyModeButtons({ setId }: { setId: string }) {
       <StudyModeButton
         title="카드 맞추기"
         icon={<Blocks color="white" />}
-        to={`/sets/${setId}/learn`}
+        to={`/sets/${setId}/match`}
       />
     </nav>
   );
