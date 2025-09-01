@@ -5,6 +5,7 @@ import {
   getStudyFolder,
   getStudyFolders,
   createStudyFolder,
+  updateStudyFolder,
 } from "@/api/folder.api";
 import { toFolderSummary } from "@/api/mapper/mapper";
 /** 폴더 목록 조회 */
@@ -39,7 +40,8 @@ export function useFolderMutation() {
 
   return useMutation({
     mutationFn: async (payload: any) => {
-      const res = await createStudyFolder({ ...payload, user_id: uid });
+      const mutationFunction = payload.id ? updateStudyFolder: createStudyFolder       
+      const res = await mutationFunction({ ...payload, user_id: uid });
       if (res.error) throw res.error;
       return res.data!;
     },
