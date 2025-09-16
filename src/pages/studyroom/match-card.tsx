@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useMatchCard } from "@/hooks/useMatchCard";
+import { useMatchCardStat } from "@/hooks/useMatchCardStat";
 import { useCardListQuery } from "@/hooks/queries/useCardQuery";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
@@ -17,9 +18,16 @@ export default function MatchCard() {
     matchedPairs,
     erroredCards,
     onCardClick,
+    isGameStarted,
     isGameWon,
-    gameTime,
   } = useMatchCard(cards);
+
+  const { gameTime } = useMatchCardStat({
+    isGameStarted,
+    isGameWon,
+    selectedCards,
+    matchedPairs,
+  });
 
   if (isLoading) {
     return <LoadingSpinner fullScreen={true} />;

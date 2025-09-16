@@ -1,8 +1,8 @@
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import type { StudyCardDraft } from "@/api/mapper/types";
 import { shuffleArray } from "@/utils/array";
 
-type MatchCardProps = {
+export type MatchCardProps = {
   id: string;
   pairId: string;
   text: string;
@@ -13,49 +13,44 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
   const [selectedCards, setSelectedCards] = useState<MatchCardProps[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<string[]>([]);
   const [erroredCards, setErroredCards] = useState<string[]>([]);
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval>>(null);
-  const [gameTime, setGameTime] = useState(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // set up new game
   const setupGame = () => {
     if (!cards) return;
-    const items: MatchCardProps[] = cards.flatMap((card) => [
-      { id: `word-${card.id}`, pairId: card.id, text: card.word },
-      { id: `def-${card.id}`, pairId: card.id, text: card.definition },
-    ]);
-    setGameItems(shuffleArray(items));
-    setSelectedCards([]);
-    setMatchedPairs([]);
-    setIsChecking(false);
-    resetTime();
-    startGameTimer();
+    setGameItems(initGameGards(cards));
+    resetGameState();
   };
 
-  // Game Timer
-  const startGameTimer = () => {
-    if (timerRef.current) timerRef.current = null;
-    timerRef.current = setInterval(
-      () => setGameTime((prevTime) => Number((prevTime + 0.1).toFixed(1))),
-      100
+  // initialize game card
+  const initGameGards = (cards: StudyCardDraft[]): MatchCardProps[] => {
+    return shuffleArray(
+      cards.flatMap((card) => [
+        { id: `word-${card.id}`, pairId: card.id, text: card.word },
+        { id: `def-${card.id}`, pairId: card.id, text: card.definition },
+      ])
     );
   };
 
-  const stopGameTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
+  // game state reset
+  const resetGameState = () => {
+    setSelectedCards([]);
+    setErroredCards([]);
+    setMatchedPairs([]);
+    setIsChecking(false);
+    setIsGameStarted(true);
   };
-
-  const resetTime = () => setGameTime(0);
 
   useEffect(() => {
     setupGame();
-    return () => {
-      stopGameTimer();
-      resetTime();
-    };
   }, [cards]);
+
+  // turn off game start
+  useEffect(() => {
+    return () => setIsGameStarted(false);
+  }, []);
 
   useEffect(() => {
     if (selectedCards.length === 2) {
@@ -67,14 +62,27 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
         setIsChecking(false);
       } else {
         setErroredCards([firstCard.id, secondCard.id]);
-        setTimeout(() => {
-          setSelectedCards([]);
-          setErroredCards([]);
-          setIsChecking(false);
-        }, 800);
+        // 0.8초 후에 error 카드 되돌림 처리
+        timeoutRef.current = resetErroredCardsAfterDelay();
       }
     }
   }, [selectedCards]);
+
+  const resetErroredCardsAfterDelay = () => {
+    return setTimeout(() => {
+      setSelectedCards([]);
+      setErroredCards([]);
+      setIsChecking(false);
+    }, 800);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  });
 
   const onCardClick = (card: MatchCardProps) => {
     if (isChecking || matchedPairs.includes(card.pairId)) {
@@ -93,19 +101,14 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
     return matchedPairs.length === cards.length;
   }, [matchedPairs, cards]);
 
-  // 종료 시 타이머 종료
-  useEffect(() => {
-    if (isGameWon) stopGameTimer();
-  }, [isGameWon]);
-
   return {
     setupGame,
+    onCardClick,
     gameItems,
     selectedCards,
     matchedPairs,
     erroredCards,
-    onCardClick,
+    isGameStarted,
     isGameWon,
-    gameTime,
   };
 }
