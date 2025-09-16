@@ -1,15 +1,15 @@
 import { useState, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { useSignInWithPasswordMutation } from "@/hooks/queries/useAuthQuery";
+import type { Credentials } from "@/api/mapper/types";
+import { CredentialSchema } from "@/validation/schema";
 import OAuthButton from "@components/auth/oauth-button";
 import Button from "@/components/button/button";
 import AuthFormDivider from "@/components/ui/divider";
 import AuthForm from "@/components/auth/auth-form";
-import type { Credential } from "@/hooks/queries/useAuthQuery";
-import { CredentialSchema } from "@/validation/schema";
 
 const Login = () => {
-  const [loginInfo, setLoginInfo] = useState<Credential>({
+  const [loginInfo, setLoginInfo] = useState<Credentials>({
     email: "",
     password: "",
   });
@@ -24,7 +24,7 @@ const Login = () => {
     }
   };
 
-  const onKeydown = (e: KeyboardEvent<HTMLButtonElement>) => {
+  const onKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       onClick();
     }
@@ -44,6 +44,7 @@ const Login = () => {
         onChange={(changeType, e) =>
           setLoginInfo({ ...loginInfo, [changeType]: e.target.value })
         }
+        onKeydown={onKeydown}
       >
         <Button
           width="full"
@@ -51,7 +52,6 @@ const Login = () => {
           color="blue"
           disabled={status === "pending"}
           onClick={onClick}
-          onKeyDown={onKeydown}
         >
           {status === "pending" ? "로그인 중..." : "로그인"}
         </Button>

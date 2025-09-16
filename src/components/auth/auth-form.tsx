@@ -1,15 +1,21 @@
 import Label from "@/components/input/label";
 import { Input } from "@/components/input/input";
-import type { ChangeEvent } from "react";
-import type { Credential } from "@/hooks/queries/useAuthQuery";
+import type { ChangeEvent, KeyboardEvent } from "react";
+import type { Credentials } from "@/api/mapper/types";
 
 interface AuthFormProps {
-  authInfo: Credential;
+  authInfo: Credentials;
   onChange: (changeType: string, e: ChangeEvent<HTMLInputElement>) => void;
+  onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   children: React.ReactNode;
 }
 
-const AuthForm = ({ authInfo, onChange, children }: AuthFormProps) => {
+const AuthForm = ({
+  authInfo,
+  onChange,
+  onKeydown,
+  children,
+}: AuthFormProps) => {
   return (
     <div className="space-y-4">
       <div className="mb-4">
@@ -27,6 +33,7 @@ const AuthForm = ({ authInfo, onChange, children }: AuthFormProps) => {
           type="password"
           value={authInfo.password}
           onChange={(e) => onChange("password", e)}
+          onKeyDown={(e) => onKeydown(e)}
         />
       </div>
       {children}
