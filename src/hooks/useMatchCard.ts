@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import type { StudyCardDraft } from "@/api/mapper/types";
 import { shuffleArray } from "@/utils/array";
 
@@ -14,6 +14,8 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
   const [matchedPairs, setMatchedPairs] = useState<string[]>([]);
   const [erroredCards, setErroredCards] = useState<string[]>([]);
   const [isChecking, setIsChecking] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval>>(null);
+  const [gameTime, setGameTime] = useState(0);
 
   const setupGame = () => {
     if (!cards) return;
@@ -25,10 +27,34 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
     setSelectedCards([]);
     setMatchedPairs([]);
     setIsChecking(false);
+    resetTime();
+    startGameTimer();
   };
+
+  // Game Timer
+  const startGameTimer = () => {
+    if (timerRef.current) timerRef.current = null;
+    timerRef.current = setInterval(
+      () => setGameTime((prevTime) => Number((prevTime + 0.1).toFixed(1))),
+      100
+    );
+  };
+
+  const stopGameTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const resetTime = () => setGameTime(0);
 
   useEffect(() => {
     setupGame();
+    return () => {
+      stopGameTimer();
+      resetTime();
+    };
   }, [cards]);
 
   useEffect(() => {
@@ -61,10 +87,16 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
     setSelectedCards((prev) => [...prev, card]);
   };
 
+  // 게임 종료
   const isGameWon = useMemo(() => {
     if (!cards || cards.length === 0) return false;
     return matchedPairs.length === cards.length;
   }, [matchedPairs, cards]);
+
+  // 종료 시 타이머 종료
+  useEffect(() => {
+    if (isGameWon) stopGameTimer();
+  }, [isGameWon]);
 
   return {
     setupGame,
@@ -74,5 +106,6 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
     erroredCards,
     onCardClick,
     isGameWon,
+    gameTime,
   };
 }
