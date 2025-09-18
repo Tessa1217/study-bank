@@ -8,12 +8,17 @@ import type {
   StudyFolderSetRelations,
 } from "@/api/repository/studyFolderSet.repository";
 import type {
+  StudyMatchGameSessionInsert,
+  StudyMatchGameSessionRow,
+} from "@/api/repository/studyMatchGameSession.repository";
+import type {
   StudyCardDraft,
   StudyFolderSummary,
   StudySetDetail,
   StudySetItem,
   StudySetSummary,
   UserProfile,
+  StudyMatchGameSessionSummary,
 } from "@/api/mapper/types";
 import type { StudyCardRow } from "@/api/repository/studyCard.repository";
 import type { StudyFolderRow } from "@/api/repository/studyFolder.repository";
@@ -90,6 +95,22 @@ export function toCardsDTO(cards: StudyCardDraft[]) {
     word_lang: c.word_lang,
     definition_lang: c.definition_lang,
   }));
+}
+
+export function toStudyMatchCardSessionDTO(
+  d: StudyMatchGameSessionSummary
+): StudyMatchGameSessionInsert {
+  return {
+    id: d.id,
+    set_id: d.setId,
+    user_id: d.userId,
+    start_time: new Date(d.startTime).toISOString(),
+    end_time: d.endTime ? new Date(d.endTime).toISOString() : null,
+    total_time: d.totalTime,
+    attempts: d.attempts,
+    correct_matches: d.correctMatches,
+    wrong_matches: d.wrongMatches,
+  };
 }
 
 export function toFolderSummary(

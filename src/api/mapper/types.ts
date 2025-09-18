@@ -68,3 +68,15 @@ export type StudyFolderSummary = {
   name: string;
   description?: string | null;
 };
+
+export type StudyMatchGameSessionSummary = {
+  id?: string;
+  userId: string;
+  setId: string;
+  startTime: Date | number;
+  endTime: Date | number | null;
+  totalTime: number;
+  attempts: number;
+  correctMatches: number;
+  wrongMatches: number;
+};
