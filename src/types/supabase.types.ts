@@ -187,7 +187,7 @@ export type Database = {
       }
       study_match_game_session: {
         Row: {
-          attemps: number | null
+          attempts: number | null
           correct_matches: number | null
           end_time: string | null
           id: string
@@ -198,7 +198,7 @@ export type Database = {
           wrong_matches: number | null
         }
         Insert: {
-          attemps?: number | null
+          attempts?: number | null
           correct_matches?: number | null
           end_time?: string | null
           id?: string
@@ -209,7 +209,7 @@ export type Database = {
           wrong_matches?: number | null
         }
         Update: {
-          attemps?: number | null
+          attempts?: number | null
           correct_matches?: number | null
           end_time?: string | null
           id?: string
