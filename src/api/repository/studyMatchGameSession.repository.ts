@@ -16,14 +16,11 @@ export const studyMatchGameSessionRepository = {
       .single();
     return sbExecOne(studyMatchGameSessionBuilder);
   },
-  findBySetIdAndUserId: (setId: string, userId: string) => {
-    const studyMatchGameSessionBuilder = supabase
-      .from("study_match_game_session")
-      .select("*")
-      .eq("set_id", setId)
-      .eq("user_id", userId)
-      .select()
-      .single();
+  findStatsBySetIdAndUserId: (setId: string, userId: string) => {
+    const studyMatchGameSessionBuilder = supabase.rpc("get_match_game_stats", {
+      user_uuid: userId,
+      set_uuid: setId,
+    });
     return studyMatchGameSessionBuilder;
   },
 };
