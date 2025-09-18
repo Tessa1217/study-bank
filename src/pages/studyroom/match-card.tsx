@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useMatchCard } from "@/hooks/useMatchCard";
 import { useMatchCardStat } from "@/hooks/useMatchCardStat";
 import { useCardListQuery } from "@/hooks/queries/useCardQuery";
+import { useAuthStore } from "@/store/useAuthStore";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
 import LoadingSpinner from "@/components/ui/loading";
@@ -10,6 +11,9 @@ import Button from "@/components/button/button";
 
 export default function MatchCard() {
   const { setId } = useParams();
+  const userId = useAuthStore((store) => store.user?.id);
+  if (!setId || !userId) return null;
+
   const { data: cards, isLoading } = useCardListQuery(setId);
   const {
     setupGame,
@@ -23,6 +27,8 @@ export default function MatchCard() {
   } = useMatchCard(cards);
 
   const { gameTime } = useMatchCardStat({
+    setId,
+    userId,
     isGameStarted,
     isGameWon,
     selectedCards,
