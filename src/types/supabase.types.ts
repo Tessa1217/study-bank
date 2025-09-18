@@ -385,6 +385,10 @@ export type Database = {
           user_name: string
         }[]
       }
+      get_match_game_stats: {
+        Args: { set_uuid: string; user_uuid: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
