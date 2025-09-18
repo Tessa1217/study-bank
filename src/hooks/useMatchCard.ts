@@ -63,18 +63,14 @@ export function useMatchCard(cards: StudyCardDraft[] | undefined) {
       } else {
         setErroredCards([firstCard.id, secondCard.id]);
         // 0.8초 후에 error 카드 되돌림 처리
-        timeoutRef.current = resetErroredCardsAfterDelay();
+        setTimeout(() => {
+          setSelectedCards([]);
+          setErroredCards([]);
+          setIsChecking(false);
+        }, 800);
       }
     }
   }, [selectedCards]);
-
-  const resetErroredCardsAfterDelay = () => {
-    return setTimeout(() => {
-      setSelectedCards([]);
-      setErroredCards([]);
-      setIsChecking(false);
-    }, 800);
-  };
 
   useEffect(() => {
     return () => {

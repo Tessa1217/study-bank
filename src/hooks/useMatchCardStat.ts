@@ -1,7 +1,14 @@
 import { useRef, useState, useEffect } from "react";
 import { type MatchCardProps } from "@/hooks/useMatchCard";
+import { useIntervalMutation } from "@/hooks/useIntervalMutation";
+import { type StudyMatchGameSessionSummary } from "@/api/mapper/types";
+import { insertStudyMatchGameSession } from "@/api/study-match-game-session.api";
+import { toStudyMatchCardSessionDTO } from "@/api/mapper/mapper";
+import { useAuthStore } from "@/store/useAuthStore";
 
 type MatchCardStatProps = {
+  setId: string;
+  userId: string;
   isGameStarted: boolean;
   isGameWon: boolean;
   selectedCards: MatchCardProps[];
@@ -9,14 +16,16 @@ type MatchCardStatProps = {
 };
 
 export function useMatchCardStat({
+  setId,
+  userId,
   isGameStarted,
   isGameWon,
   selectedCards,
   matchedPairs,
 }: MatchCardStatProps) {
+  const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [attempts, setAttempts] = useState<number>(0);
-  const [startTime, setStartTime] = useState<number | null>(null);
-  const [endTime, setEndTime] = useState<number | null>(null);
+  const [startTime, setStartTime] = useState<number>(0);
   const [gameTime, setGameTime] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>(null);
 
@@ -27,9 +36,9 @@ export function useMatchCardStat({
   }, [isGameStarted, isGameWon]);
 
   const initMatchCardTimeState = () => {
+    setSessionId(undefined);
     setAttempts(0);
     setStartTime(Date.now());
-    setEndTime(null);
   };
 
   // initialize time state
@@ -40,7 +49,7 @@ export function useMatchCardStat({
 
   // Game Timer
   const startGameTimer = () => {
-    if (timerRef.current) timerRef.current = null;
+    if (timerRef.current) stopGameTimer();
     timerRef.current = setInterval(
       () => setGameTime((prevTime) => Number((prevTime + 0.1).toFixed(1))),
       100
@@ -64,21 +73,36 @@ export function useMatchCardStat({
   }, [isGameWon]);
 
   useEffect(() => {
-    const payload = {
-      startTime,
-      endTime,
-      gameTime,
-      attempts,
-      correctMatches: matchedPairs.length,
-    };
-  }, [isGameWon]);
-
-  useEffect(() => {
     // 카드 쌍 뒤집었을 때
     if (selectedCards.length === 2) {
       setAttempts((prevAttempt) => prevAttempt + 1);
     }
   }, [selectedCards]);
+
+  const saveGameProgress = (payload: StudyMatchGameSessionSummary) => {
+    return insertStudyMatchGameSession(toStudyMatchCardSessionDTO(payload));
+  };
+
+  useIntervalMutation<StudyMatchGameSessionSummary>({
+    payload: {
+      id: sessionId,
+      setId,
+      userId,
+      startTime,
+      endTime: isGameWon ? Date.now() : null,
+      totalTime: gameTime,
+      attempts,
+      correctMatches: matchedPairs.length,
+      wrongMatches: attempts - matchedPairs.length,
+    },
+    mutationFn: saveGameProgress,
+    onSuccess: (data) => {
+      setSessionId(data as string);
+    },
+    interval: 5000,
+    enabled: isGameStarted && !isGameWon,
+    isFinal: isGameWon,
+  });
 
   return {
     gameTime,
