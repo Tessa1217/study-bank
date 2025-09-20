@@ -9,5 +9,8 @@ export async function insertStudyMatchGameSession(
 }
 
 export async function getStudyMatchGameSession(setId: string, userId: string) {
-  return studyMatchGameSessionRepository.findBySetIdAndUserId(setId, userId);
+  return studyMatchGameSessionRepository.findStatsBySetIdAndUserId(
+    setId,
+    userId
+  );
 }
