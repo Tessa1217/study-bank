@@ -32,3 +32,9 @@ export const profileKeys = {
   all: ["user"] as const,
   detail: (userId: string) => [...profileKeys.all, "detail", userId] as const,
 };
+
+export const matchCardSessionKeys = {
+  all: ["matchCardSession"] as const,
+  stats: (userId: string, setId: string) =>
+    [...matchCardSessionKeys.all, "stats", userId, setId] as const,
+};
