@@ -18,18 +18,20 @@ export const generateFeedback = (stats: StudyMatchGameStats): string[] => {
   }
 
   // 2. 속도 관련
-  if (stats.timeDiffPercent > 0) {
-    messages.push(
-      `⏱️ 첫 세션(${stats.firstTime}초)보다 마지막 세션(${stats.lastTime}초)이 ${stats.timeDiffPercent}% 빨라졌습니다.`
-    );
-  } else if (stats.timeDiffPercent < 0) {
-    messages.push(
-      `🐢 첫 세션(${stats.firstTime}초) 대비 마지막 세션(${
-        stats.lastTime
-      }초)은 ${Math.abs(stats.timeDiffPercent)}% 느려졌습니다.`
-    );
-  } else {
-    messages.push(`⚖️ 첫 세션과 마지막 세션의 소요 시간이 비슷합니다.`);
+  if (stats.totalSessions > 1) {
+    if (stats.timeDiffPercent > 0) {
+      messages.push(
+        `⏱️ 첫 세션(${stats.firstTime}초)보다 마지막 세션(${stats.lastTime}초)이 ${stats.timeDiffPercent}% 빨라졌습니다.`
+      );
+    } else if (stats.timeDiffPercent < 0) {
+      messages.push(
+        `🐢 첫 세션(${stats.firstTime}초) 대비 마지막 세션(${
+          stats.lastTime
+        }초)은 ${Math.abs(stats.timeDiffPercent)}% 느려졌습니다.`
+      );
+    } else {
+      messages.push(`⚖️ 첫 세션과 마지막 세션의 소요 시간이 비슷합니다.`);
+    }
   }
 
   // 3. 직전 대비 개선율
