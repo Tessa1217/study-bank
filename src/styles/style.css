@@ -101,8 +101,16 @@
     @apply bg-gray-200 animate-pulse rounded;
   }
 
+  .match-card {
+    @apply flex items-center justify-center w-full h-full p-2 text-center rounded-lg shadow-md cursor-pointer transition-all duration-300 transform-gpu border-2 overflow-hidden;
+  }
+
   .error-card {
     animation: tilt-shaking 0.2s infinite;
+  }
+
+  .section-title {
+    @apply md:text-xl font-bold mb-4 flex gap-3;
   }
 }
 
