@@ -8,15 +8,19 @@ import LearnFlashcard from "@/components/card/learn-flashcards";
 import PageWrapper from "@/components/layout/page-wrapper";
 import PageHeader from "@/components/layout/page-header";
 import LoadingSpinner from "@/components/ui/loading";
+import MatchCardStats from "@/components/studyroom/match-card-stats";
+import { useAuthStore } from "@/store/useAuthStore";
+
 const Main = () => {
   const { setId } = useParams();
   const { data: studySet, isLoading } = useSetWithCardsQuery(setId);
+  const userId = useAuthStore((state) => state.user?.id);
 
   if (isLoading) {
     return <LoadingSpinner fullScreen={true} />;
   }
 
-  if (!setId) {
+  if (!setId || !userId) {
     return <Navigate to="/library" />;
   }
 
@@ -30,9 +34,11 @@ const Main = () => {
         <LearnFlashcard cards={cards} setId={setId} />
       </section>
       <section>
-        <h3 className="text-xl font-bold mb-4">
-          이 세트의 단어({cards.length})
-        </h3>
+        <h3 className="section-title">나만의 학습 기록</h3>
+        <MatchCardStats setId={setId} userId={userId} />
+      </section>
+      <section>
+        <h3 className="section-title">이 세트의 단어({cards.length})</h3>
         <div className="bg-secondary p-5 rounded-2xl">
           <div className="flex flex-col gap-4 w-full">
             {cards.map((card) => (
