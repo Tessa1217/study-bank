@@ -1,3 +1,4 @@
+import type { Json } from "@/types/supabase.types";
 import type {
   StudySetRow,
   StudySetWithCard,
@@ -7,10 +8,7 @@ import type {
   StudyFolderSetInsert,
   StudyFolderSetRelations,
 } from "@/api/repository/studyFolderSet.repository";
-import type {
-  StudyMatchGameSessionInsert,
-  StudyMatchGameSessionRow,
-} from "@/api/repository/studyMatchGameSession.repository";
+import type { StudyMatchGameSessionInsert } from "@/api/repository/studyMatchGameSession.repository";
 import type {
   StudyCardDraft,
   StudyFolderSummary,
@@ -19,6 +17,7 @@ import type {
   StudySetSummary,
   UserProfile,
   StudyMatchGameSessionSummary,
+  StudyMatchGameStats,
 } from "@/api/mapper/types";
 import type { StudyCardRow } from "@/api/repository/studyCard.repository";
 import type { StudyFolderRow } from "@/api/repository/studyFolder.repository";
@@ -162,5 +161,29 @@ export function toSetDetail(row: StudySetWithCard): StudySetDetail {
     description: row.description ?? null,
     isPublic: row.is_public!,
     cards,
+  };
+}
+
+export function toMatchCardGameStats(json: Json): StudyMatchGameStats {
+  if (!json || typeof json !== "object") {
+    throw new Error("invalid stats result");
+  }
+  const data = json as Record<string, unknown>;
+
+  return {
+    avgTime: Number(data.avg_time ?? 0),
+    firstTime: Number(data.first_time ?? 0),
+    lastTime: Number(data.last_time ?? 0),
+    timeDiffPercent: Number(data.time_diff_percent ?? 0),
+    improvementPercent:
+      data.improvement_percent !== null
+        ? Number(data.improvement_percent)
+        : null,
+    accuracy: Number(data.accuracy ?? 0),
+    efficiency: Number(data.efficiency ?? 0),
+    totalAttempts: Number(data.total_attempts ?? 0),
+    totalCorrect: Number(data.total_correct ?? 0),
+    totalWrong: Number(data.total_wrong ?? 0),
+    totalSessions: Number(data.total_sessions ?? 0),
   };
 }
