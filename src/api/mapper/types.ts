@@ -80,3 +80,17 @@ export type StudyMatchGameSessionSummary = {
   correctMatches: number;
   wrongMatches: number;
 };
+
+export type StudyMatchGameStats = {
+  avgTime: number;
+  firstTime: number;
+  lastTime: number;
+  timeDiffPercent: number;
+  improvementPercent: number | null;
+  accuracy: number;
+  efficiency: number;
+  totalAttempts: number;
+  totalCorrect: number;
+  totalWrong: number;
+  totalSessions: number;
+};
